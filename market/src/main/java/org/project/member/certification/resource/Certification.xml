@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="certification">
+	<insert id="certify" parameterType="certificate">
+		INSERT INTO
+			CERTIFICATION (EMAIL, RANDOMKEY)
+		VALUES
+			(#{email}, #{randomKey})
+	</insert>
+	
+	<select id="certified" parameterType="String" resultType="certificate">
+	    SELECT EMAIL, RANDOMKEY
+	    FROM   CERTIFICATION
+		WHERE  EMAIL = #{value}
+	</select>
+	
+	<delete id="complete" parameterType="String">
+		DELETE FROM CERTIFICATION
+		WHERE  EMAIL = #{value}
+	</delete>
+</mapper>

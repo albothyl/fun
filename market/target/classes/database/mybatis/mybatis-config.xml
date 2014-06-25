@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+    </settings>
+    
+    <typeAliases>
+        <typeAlias alias="member"  type="org.project.member.dto.Member"></typeAlias>
+        <typeAlias alias="certificate" type="org.project.member.certification.dto.Certification"></typeAlias>
+        <typeAlias alias="page"    type="org.project.common.vo.PageVO"></typeAlias>
+    </typeAliases>
+    
+    <mappers>
+        <mapper resource="org/project/member/resource/Member.xml" />
+        <mapper resource="org/project/member/certification/resource/Certification.xml" />
+    </mappers>
+</configuration>

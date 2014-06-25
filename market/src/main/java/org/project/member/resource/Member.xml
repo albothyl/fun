@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<insert id="join" parameterType="member">
+		INSERT INTO
+			MEMBER (EMAIL, PW, NICK, GRADE)
+		VALUES
+			(#{email}, #{pw}, #{nick}, #{grade})
+	</insert>
+	
+	<select id="search" parameterType="String" resultType="member">
+	    SELECT EMAIL, PW, NICK, GRADE, JOINDATE
+	    FROM   MEMBER
+		WHERE  EMAIL = #{value}
+	</select>
+	
+	<update id="update" parameterType="member">
+		UPDATE MEMBER
+		SET    PW    = #{pw}
+		     , NICK  = #{nick}
+		     , GRADE = #{grade}
+		WHERE  EMAIL = #{email}
+	</update>
+	
+	<delete id="secede" parameterType="String">
+		DELETE FROM MEMBER
+		WHERE  EMAIL = #{value}
+	</delete>
+	
+	<!-- 현제 list 작업중  -->
+	<select id="list" parameterType="page" resultType="member">
+	    SELECT /*+INDEX_ASC(MEMBER_PK_EMAIL)*/
+		       EMAIL
+		     , PW
+		     , NICK
+		     , GRADE
+		     , JOINDATE
+		FROM   MEMBER
+		WHERE  ROWNUM > (#{pageNo} - 1) * #{viewCnt}
+		AND    #{pageNo} * #{viewCnt} >= ROWNUM
+	</select>
+		
+	<!--
+	SELECT EMAIL
+	     , PW
+	     , NICK
+	     , GRADE
+	     , JOINDATE
+	FROM  (SELECT /*+INDEX_ASC(MEMBER_PK_EMAIL)*/
+	              EMAIL
+	            , PW
+	            , NICK
+	            , GRADE
+	            , JOINDATE, ROW_NUMBER() OVER (ORDER BY EMAIL DESC) R 
+           FROM MEMBER)
+	WHERE  R BETWEEN ((#{pageNo} - 1) * #{viewCnt}) AND   #{viewNum)
+	; 
+		
+	
+	 -->
+	 <!--
+	    SELECT EMAIL
+		     , PW
+		     , NICK
+		     , GRADE
+		     , JOINDATE
+		FROM   (SELECT /*+INDEX_ASC(MEMBER_PK_EMAIL)*/
+				       EMAIL
+				     , PW
+				     , NICK
+				     , GRADE
+				     , JOINDATE
+				FROM   MEMBER
+				WHERE  <if test="grade != null">
+					   GRADE = #{grade}
+					   </if>)
+		WHERE  ROWNUM > (#{pageNo} - 1) * #{viewCnt}
+		AND   #{pageNo} * #{viewCnt} >= ROWNUM
+		; 
+	  -->
+</mapper>
