@@ -1,4 +1,4 @@
-package org.project.system.customAnnotation;
+package org.project.common.system.customAnnotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
