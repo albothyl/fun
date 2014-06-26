@@ -10,7 +10,7 @@
 	<meta name="keywords"    content=""/>
 	<meta name="author"      content=""/>
 
-	<title>login</title>
+	<title>loginReject</title>
 
 </head>
 

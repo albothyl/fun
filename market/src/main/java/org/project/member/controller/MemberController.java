@@ -131,6 +131,8 @@ public class MemberController {
 					
 					returnView = "/view/member/loginFail";
 				}
+				
+				returnView = "/view/member/loginSuccess";
 			}
 		}
 		
