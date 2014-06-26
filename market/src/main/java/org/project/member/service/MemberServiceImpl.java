@@ -35,13 +35,11 @@ public class MemberServiceImpl implements MemberService {
 	
 	private Member member;
 	
-	@Override
 	@Transactional
 	public Certification joining(Member member) {
 		memberDAO.join(member);
 		return certificationService.certify(member.getEmail());
 	}
-	@Override
 	@Transactional
 	public Member joined(Certification certification) {
 		member = new Member();
@@ -55,34 +53,28 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
-	@Override
 	public Member search(String email) {
 		return memberDAO.search(email);
 	}
 
-	@Override
 	@Transactional
 	public void update(Member member) {
 		memberDAO.update(member);
 	}
 
-	@Override
 	@Transactional
 	public void secede(String email) {
 		memberDAO.secede(email);
 	}
 
-	@Override
 	public List<Member> list(PageVO pageVO) {
 		return memberDAO.list(pageVO);
 	}
 	
-	@Override
 	@Transactional
 	public void recover(String email) {
 		certificationService.certify(email);
 	}
-	@Override
 	@Transactional
 	public Member recovered(Certification certification) {
 		member = new Member();
@@ -93,7 +85,6 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 	
-	@Override
 	public String loginRejectCheck(Login login) {
 		String returnView = null;
 		
@@ -111,7 +102,6 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return returnView;
 	}	
-	@Override
 	public boolean login(Member member) {
 		if(member.getPw() == memberDAO.search(member.getEmail()).getPw()){
 			return true;

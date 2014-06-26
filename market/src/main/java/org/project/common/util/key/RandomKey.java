@@ -2,7 +2,7 @@ package org.project.common.util.key;
 
 import java.util.Random;
 
-import org.project.system.customAnnotation.Util;
+import org.project.common.system.customAnnotation.Util;
 
 @Util("randomKey")
 public class RandomKey {

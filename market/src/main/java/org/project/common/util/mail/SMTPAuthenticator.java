@@ -3,7 +3,7 @@ package org.project.common.util.mail;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
-import org.project.system.customAnnotation.Util;
+import org.project.common.system.customAnnotation.Util;
 
 @Util("SMTPAuthenticator")
 public class SMTPAuthenticator extends Authenticator {

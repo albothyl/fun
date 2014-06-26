@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.project.system.customAnnotation.Util;
+import org.project.common.system.customAnnotation.Util;
 
 @Util("mailSender")
 public class MailSender {

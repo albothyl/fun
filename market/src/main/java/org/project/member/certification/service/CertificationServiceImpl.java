@@ -22,7 +22,6 @@ public class CertificationServiceImpl implements CertificationService {
 	@Resource(name="randomKey")
 	RandomKey randomKey;
 	
-	@Override
 	@Transactional
 	public Certification certify(String email) {
 		Certification certification = new Certification(email, randomKey.intRandomKey());		
@@ -31,7 +30,6 @@ public class CertificationServiceImpl implements CertificationService {
 		return certification;
 	}
 
-	@Override
 	@Transactional
 	public boolean certified(Certification certification) {
 		if(!certificationDAO.certified(certification.getEmail()).equals(null)) {

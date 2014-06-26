@@ -3,7 +3,7 @@ package org.project.common.util.encryption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.project.system.customAnnotation.Util;
+import org.project.common.system.customAnnotation.Util;
 
 @Util("shaEncryption")
 public class SHA {

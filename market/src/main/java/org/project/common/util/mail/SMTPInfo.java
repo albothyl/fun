@@ -2,7 +2,7 @@ package org.project.common.util.mail;
 
 import java.util.Properties;
 
-import org.project.system.customAnnotation.Util;
+import org.project.common.system.customAnnotation.Util;
 
 @Util("SMTPInfo")
 public class SMTPInfo {

@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: org.member.MemberServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.078 sec <<< FAILURE!
-joinTest(org.member.MemberServiceTest)  Time elapsed: 0.062 sec  <<< ERROR!
+Tests run: 6, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.249 sec <<< FAILURE!
+joinTest(org.member.MemberServiceTest)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -129,7 +129,7 @@ Caused by: java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
 	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:293)
 	... 91 more
 
-searchTest(org.member.MemberServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+searchTest(org.member.MemberServiceTest)  Time elapsed: 0.062 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -256,7 +256,7 @@ Caused by: java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
 	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:293)
 	... 91 more
 
-updateTest(org.member.MemberServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+updateTest(org.member.MemberServiceTest)  Time elapsed: 0.047 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -383,7 +383,7 @@ Caused by: java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
 	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:293)
 	... 91 more
 
-secedeTest(org.member.MemberServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+secedeTest(org.member.MemberServiceTest)  Time elapsed: 0.078 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -510,7 +510,7 @@ Caused by: java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
 	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:293)
 	... 91 more
 
-listTest(org.member.MemberServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+listTest(org.member.MemberServiceTest)  Time elapsed: 0.016 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -637,7 +637,7 @@ Caused by: java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
 	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:293)
 	... 91 more
 
-joinedTest(org.member.MemberServiceTest)  Time elapsed: 0 sec  <<< ERROR!
+joinedTest(org.member.MemberServiceTest)  Time elapsed: 0.046 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)

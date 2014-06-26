@@ -11,17 +11,14 @@ public class CertificationDAOImpl implements CertificationDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@Override
 	public void certify(Certification certification) {
 		sqlSession.insert("certification.certify", certification);
 	}
 
-	@Override
 	public Certification certified(String email) {
 		return sqlSession.selectOne("certification.certified", email);
 	}
 
-	@Override
 	public void certifyComplete(String email) {
 		sqlSession.delete("certification.complete", email);		
 	}
