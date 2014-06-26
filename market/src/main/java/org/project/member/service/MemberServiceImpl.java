@@ -1,5 +1,6 @@
 package org.project.member.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.project.member.certification.dto.Certification;
 import org.project.member.certification.service.CertificationService;
 import org.project.member.dao.MemberDAO;
 import org.project.member.dto.Grade;
+import org.project.member.dto.Login;
 import org.project.member.dto.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,8 +79,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	@Transactional
-	public Certification recover(String email) {
-		return certificationService.certify(email);
+	public void recover(String email) {
+		certificationService.certify(email);
 	}
 	@Override
 	@Transactional
@@ -89,8 +91,26 @@ public class MemberServiceImpl implements MemberService {
 			member = memberDAO.search(certification.getEmail());
 		}
 		return member;
-	}	
+	}
 	
+	@Override
+	public String loginRejectCheck(Login login) {
+		String returnView = null;
+		
+		if(login != null){
+			if(login.isLoginYN()){
+				returnView = "/view/member/loginAlready";
+			}else{
+				if(login.isLoginRejectionYN()){
+					Date nowTime = new Date();
+					if(nowTime.before(login.getLoginRejectionTime())){						
+						returnView = "/view/member/loginReject";
+					}
+				}
+			}
+		}
+		return returnView;
+	}	
 	@Override
 	public boolean login(Member member) {
 		if(member.getPw() == memberDAO.search(member.getEmail()).getPw()){

@@ -3,6 +3,7 @@ package org.member;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -107,5 +108,5 @@ public class MemberServiceTest {
 			System.out.println(member.toString());
 		}
 	}
-
+	
 }

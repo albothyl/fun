@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.project.common.vo.PageVO;
 import org.project.member.certification.dto.Certification;
+import org.project.member.dto.Login;
 import org.project.member.dto.Member;
 
 public interface MemberService {			
@@ -20,9 +21,10 @@ public interface MemberService {
 	//list
 	public List<Member> list(PageVO pageVO);	
 	//recover :: 로직 고민중
-	public Certification recover(String email);
+	public void recover(String email);
 	//return type undefined
 	public Member recovered(Certification certification);
 	//login
+	public String loginRejectCheck(Login login);
 	public boolean login(Member member);
 }
