@@ -12,6 +12,6 @@
 	</head> 
 	<body>
 		<c:url value="/showMessage.html" var="messageUrl" />
-		<a href="/member/loginForm.do">Click to enter</a>
+		<a href="/member/joinForm.do">Click to enter</a>
 	</body>
 </html>

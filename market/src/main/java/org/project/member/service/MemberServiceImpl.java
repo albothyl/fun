@@ -90,12 +90,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		if(login != null){
 			if(login.isLoginYN()){
-				returnView = "/view/member/loginAlready";
+				returnView = "/member/login/loginAlready";
 			}else{
 				if(login.isLoginRejectionYN()){
 					Date nowTime = new Date();
 					if(nowTime.before(login.getLoginRejectionTime())){						
-						returnView = "/view/member/loginReject";
+						returnView = "/member/login/loginReject";
 					}
 				}
 			}

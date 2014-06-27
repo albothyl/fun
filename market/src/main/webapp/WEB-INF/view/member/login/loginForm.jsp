@@ -28,13 +28,13 @@
 					<td height="5"></td>
 				</tr>
 				<tr>
-					<td><input type="password" name="userpw" id="userpw" value="" maxlength="16" /></td>
+					<td><input type="password" name="pw" id="pw" value="" maxlength="16" /></td>
 				</tr>
 				<tr>
 					<td height="5"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="nickname" id="nickname" value="" maxlength="16" /></td>
+					<td><input type="text" name="nick" id="nick" value="" maxlength="16" /></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="left">

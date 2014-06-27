@@ -27,13 +27,13 @@ public class MemberController {
 	//회원 가입
 	@RequestMapping(value="joinForm", method=RequestMethod.GET)
 	public String joinForm() {
-		return "/member/joinForm";
+		return "/member/join/joinForm";
 	}
 	@RequestMapping(value="joinCertifyAction", method=RequestMethod.POST)
 	public ModelAndView joinCertifyAction(Member member) {
 		mav = new ModelAndView();
 		mav.addObject("certification", memberService.joining(member));
-		mav.setViewName("/member/joinCertify");
+		mav.setViewName("/member/join/joinCertify");
 		
 		return mav;
 	}
@@ -41,7 +41,7 @@ public class MemberController {
 	public ModelAndView joinCertifiedAction(Certification certification) {
 		mav = new ModelAndView();
 		mav.addObject("member", memberService.joined(certification));
-		mav.setViewName("/member/joinCertified");
+		mav.setViewName("/member/join/joinCertified");
 		
 		return mav;				
 	}
@@ -101,7 +101,7 @@ public class MemberController {
 	/* 회원 로그인  */
 	@RequestMapping(value="loginForm", method=RequestMethod.GET)
 	public String loginForm() {
-		return "/member/loginForm";
+		return "/member/login/loginForm";
 	}
 	@RequestMapping(value="loginAction", method=RequestMethod.POST)
 	public String loginAction(HttpSession session, Member member) {
@@ -122,17 +122,17 @@ public class MemberController {
 					login.setLoginRejectionTime(rejectionTime);
 					session.setAttribute("login", login);
 					
-					returnView = "/member/loginReject";
+					returnView = "/member/login/loginReject";
 				}else{
 					
 					login.setLoginCnt(nextCnt);
 					login.setLoginYN(false);				
 					session.setAttribute("login", login);
 					
-					returnView = "/member/loginFail";
+					returnView = "/member/login/loginFail";
 				}
 				
-				returnView = "/member/loginSuccess";
+				returnView = "/member/login/loginSuccess";
 			}
 		}
 		

@@ -1,0 +1,25 @@
+.form {
+	width: 180px;
+	height: 150px;
+}
+.clear {
+	clear: both;
+	padding: 2px;
+}
+.caption {
+	width: 70px;
+	float: left;
+}
+.userInput {
+	width: 100px;
+	float: left;
+}
+.userInput2 {
+	width: 100px;
+	margin-left: 70px;
+	float: left;
+}
+.btn {
+	width: 75px;
+	float: right;
+}
