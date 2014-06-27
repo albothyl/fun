@@ -27,13 +27,13 @@ public class MemberController {
 	//회원 가입
 	@RequestMapping(value="joinForm", method=RequestMethod.GET)
 	public String joinForm() {
-		return "/view/member/joinForm";
+		return "/member/joinForm";
 	}
 	@RequestMapping(value="joinCertifyAction", method=RequestMethod.POST)
 	public ModelAndView joinCertifyAction(Member member) {
 		mav = new ModelAndView();
 		mav.addObject("certification", memberService.joining(member));
-		mav.setViewName("/view/member/joinCertify");
+		mav.setViewName("/member/joinCertify");
 		
 		return mav;
 	}
@@ -41,7 +41,7 @@ public class MemberController {
 	public ModelAndView joinCertifiedAction(Certification certification) {
 		mav = new ModelAndView();
 		mav.addObject("member", memberService.joined(certification));
-		mav.setViewName("/view/member/joinCertified");
+		mav.setViewName("/member/joinCertified");
 		
 		return mav;				
 	}
@@ -52,26 +52,26 @@ public class MemberController {
 		mav = new ModelAndView();
 		mav.addObject("member", memberService.search(email));
 		//view를 지정하지 않았을 때 자신을 호출한 jsp로 리턴되던걸로 기억하는데 이를 테스트해야함.
-		//mav.setViewName("/view/member/search");
+		//mav.setViewName("/member/search");
 		return mav;
 	}
 	
 	/* 회원정보 수정 */
 	@RequestMapping(value="updateForm", method=RequestMethod.POST)
 	public String updateForm() {
-		return "/view/member/updateForm";
+		return "/member/updateForm";
 	}
 	@RequestMapping(value="updateAction", method=RequestMethod.POST)
 	public String updateAction(Member member) {
 		memberService.update(member);
-		return "/view/member/update";
+		return "/member/update";
 	}
 	
 	/* 회원 탈퇴 */
 	@RequestMapping(value="secedeAction", method=RequestMethod.POST)
 	public String secedeAction(String email) {
 		memberService.secede(email);
-		return "/view/member/secede";
+		return "/member/secede";
 	}
 	
 	/* 회원 리스트 */
@@ -79,29 +79,29 @@ public class MemberController {
 	public String listAction(PageVO pageVO) {
 		mav = new ModelAndView();
 		mav.addObject("list", memberService.list(pageVO));		
-		return "/view/member/list";
+		return "/member/list";
 	}
 	
 	/* 회원 비밀번호 찾기 */
 	@RequestMapping(value="recoverForm", method=RequestMethod.GET)
 	public String recoverForm() {
-		return "/view/member/recoverForm";
+		return "/member/recoverForm";
 	}
 	@RequestMapping(value="recoveryAction", method=RequestMethod.POST)
 	public String recoveryAction(Member member) {
 		memberService.recover(member.getEmail());
-		return "/view/member/recoveryCheckKey";
+		return "/member/recoveryCheckKey";
 	}
 	@RequestMapping(value="recoveredAction", method=RequestMethod.POST)
 	public String recoveredAction(Certification certification) {
 		memberService.recovered(certification);
-		return "/view/member/recoverySuccess";
+		return "/member/recoverySuccess";
 	}
 	
 	/* 회원 로그인  */
 	@RequestMapping(value="loginForm", method=RequestMethod.GET)
 	public String loginForm() {
-		return "/view/member/loginForm";
+		return "/member/loginForm";
 	}
 	@RequestMapping(value="loginAction", method=RequestMethod.POST)
 	public String loginAction(HttpSession session, Member member) {
@@ -122,17 +122,17 @@ public class MemberController {
 					login.setLoginRejectionTime(rejectionTime);
 					session.setAttribute("login", login);
 					
-					returnView = "/view/member/loginReject";
+					returnView = "/member/loginReject";
 				}else{
 					
 					login.setLoginCnt(nextCnt);
 					login.setLoginYN(false);				
 					session.setAttribute("login", login);
 					
-					returnView = "/view/member/loginFail";
+					returnView = "/member/loginFail";
 				}
 				
-				returnView = "/view/member/loginSuccess";
+				returnView = "/member/loginSuccess";
 			}
 		}
 		
