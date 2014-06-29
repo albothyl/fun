@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.project.common.vo.PageVO;
 import org.project.member.certification.dto.Certification;
 import org.project.member.dto.Login;
@@ -54,6 +55,20 @@ public class MemberController {
 		//view를 지정하지 않았을 때 자신을 호출한 jsp로 리턴되던걸로 기억하는데 이를 테스트해야함.
 		//mav.setViewName("/member/search");
 		return mav;
+	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="duplicationCheckAction", method=RequestMethod.POST)
+	public ModelAndView duplicationCheckAction(String email) {
+		Member member = memberService.search(email);
+		
+		JSONObject json = new JSONObject();		
+		if(member.getEmail() != null){
+			json.put("member", "true");
+		}else{
+			json.put("member", "false");
+		}
+		
+		return new ModelAndView("/common/jsonHelp", "json", json);
 	}
 	
 	/* 회원정보 수정 */

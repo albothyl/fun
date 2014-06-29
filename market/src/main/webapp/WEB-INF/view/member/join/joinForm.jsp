@@ -18,34 +18,70 @@
 	<script src="/javaScript/user/memberValidationCheck.js"></script>	
 	
 	<script>
+		var emailDuplicationCheck = false;
+	
 		$(document).ready(function()
-		{
+		{	
 			$("#joinSubmit").click(function(){
-				validationCheck();
+				if(validationCheck()){
+					var joinForm    =  document.getElementById("memberJoinForm");
+					joinForm.action = "/member/joinCertifyAction.do";
+					joinForm.method = "POST";
+					joinForm.submit();
+				}
 			});
+			
+			$("#joinCancle").click(function(){
+				history.back();
+			});
+			
+			$("#duplicationCheck").click(function(){
+				
+				var email = $("#email").val();
+				
+				if(!nullCheck("email", email)){
+					return false;
+				}
+				
+				$.ajax({
+					type:"POST",
+					url:"/member/duplicationCheckAction.do",
+					data:{'email':email},
+					dataType:"JSON",
+					success : function(data) {
+						$.each(data, function(value){
+							if(value == true){
+								$("#eMailDupInfo").text("사용가능한 이메일입니다.");
+								emailDuplicationCheck = true;
+							}else{
+								$("#eMailDupInfo").text("이미 사용중인 E-MAIL입니다.");
+								emailDuplicationCheck = false;
+							}
+						});
+					},
+					// 통신이 실패했어도 완료가 되었을 때 이 함수를 타게 된다.
+					complete : function(data) {					 
+					},
+					error : function(xhr, status, error) {
+					 alert("에러발생");
+					}
+				});
+			});
+			
 		});
-		
-		function validationCheck(){			
-			if(emailCheck()){
-				alert("emailCheck success!!");
-			}
-			if(pwCheck()){
-				alert("pwCheck success!!");
-			}
-			if(nickCheck()){
-				alert("nickCheck success!!");
-			}
-		}
 	</script>
 
 </head>
 
 <body>
-	<form action="/member/joinCertifyAction.do" method="POST">
-		<div class="form" id="memberJoinForm">
+	<form id="memberJoinForm">
+		<div class="form" id="memberJoinDiv">
 			<div class="clear"></div>
 				<div class="caption">email</div>
 				<div class="userInput"><input type="text" name="email" id="email" value="" maxlength="20" /></div>
+				<input type="button" class="btn" id="duplicationCheck" value="중복체크" />
+			<div class="clear"></div>
+				<div class="caption" id="eMailDupInfo">E-MAIL 중복체크를 해주세요.</div>
 			<div class="clear"></div>
 				<div class="caption">password</div>
 				<div class="userInput"><input type="password" name="pw" id="pw" value="" maxlength="20" /></div>
