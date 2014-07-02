@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: org.common.util.SHAEncryptionTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.078 sec <<< FAILURE!
-shaTest(org.common.util.SHAEncryptionTest)  Time elapsed: 0.078 sec  <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.046 sec <<< FAILURE!
+shaTest(org.common.util.SHAEncryptionTest)  Time elapsed: 0.046 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)

@@ -32,7 +32,8 @@ public class CertificationServiceImpl implements CertificationService {
 
 	@Transactional
 	public boolean certified(Certification certification) {
-		if(!certificationDAO.certified(certification.getEmail()).equals(null)) {
+		Certification checkCertify = certificationDAO.certified(certification.getEmail());
+		if(certification.getRandomKey() == checkCertify.getRandomKey()) {
 			certificationDAO.certifyComplete(certification.getEmail());
 			return true;
 		}

@@ -11,40 +11,50 @@
 	<meta name="author"      content=""/>
 
 	<title>loginForm</title>
-
+	
+	<link rel="stylesheet" href="/css/user/userCSS.css">		
+	<script src="/javaScript/angular/angular.min.js"></script>
+	<script src="/javaScript/jQuery/jquery-2.1.1.min.js"></script>	
+	<script src="/javaScript/user/memberValidationCheck.js"></script>
+	
+	<script>
+	$(document).ready(function()
+	{
+		$("#loginSubmit").click(function(){
+			if(loginFormValidationCheck()){
+				var loginForm    =  document.getElementById("memberLoginForm");
+				loginForm.action = "/member/loginAction.do";
+				loginForm.method = "POST";
+				loginForm.submit();
+			}
+		});		
+		
+		$("#cancle").click(function(){
+			history.back();
+		});
+	});
+	</script>
+	
 </head>
 
 <body>
-	<div id="login">
-		<form action="/member/loginAction.do" method="POST">
-			<div>
-			<table>
-				<tr>
-					<td width="120"><input type="text" name="email" id="email" value="" maxlength="16" /></td>
-					<td width="10"></td>
-					<td rowspan="3"><input type="submit" value="Login" /></td>
-				</tr>
-				<tr>
-					<td height="5"></td>
-				</tr>
-				<tr>
-					<td><input type="password" name="pw" id="pw" value="" maxlength="16" /></td>
-				</tr>
-				<tr>
-					<td height="5"></td>
-				</tr>
-				<tr>
-					<td><input type="text" name="nick" id="nick" value="" maxlength="16" /></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="left">
-						<a href="/member/joinForm.do">회원가입</a> / <a href="/member/findIdForm.do">ID</a> / <a href="/member/findPwForm.do">PW 찾기</a>
-					</td>
-				</tr>										
-			</table>
-			</div>
-		</form>
-	</div>
+	<form id="memberLoginForm">
+		<div class="form" id="memberLoginDiv">
+			<div class="clear"></div>
+				<div class="caption">email</div>
+				<div class="userInput"><input type="text" name="email" id="email" value="" maxlength="20" /></div>
+			<div class="clear"></div>
+				<div class="caption">password</div>
+				<div class="userInput"><input type="password" name="pw" id="pw" value="" maxlength="20" /></div>
+			<div class="clear"></div>
+				<input type="button" class="btn" id="loginSubmit" value="로그인" />
+				<input type="button" class="btn" id="cancle" value="취소" />
+		</div>
+		<div class="clear"></div>
+		<div>
+			<a href="/member/joinForm.do">회원가입</a> / <a href="/member/findPwForm.do">PW 찾기</a>
+		</div>
+	</form>
 </body>
 
 </html>

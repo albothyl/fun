@@ -1,19 +1,19 @@
 package org.project.member.controller;
 
 import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.project.common.vo.PageVO;
 import org.project.member.certification.dto.Certification;
+import org.project.member.dto.Duplication;
 import org.project.member.dto.Login;
 import org.project.member.dto.Member;
 import org.project.member.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -25,6 +25,14 @@ public class MemberController {
 	
 	private ModelAndView mav;
 	
+	//앵귤러 테스트용 폼
+	@RequestMapping(value="angularForm", method=RequestMethod.GET)
+	public String angularForm() {
+		//return "/member/angularForm";
+		//return "/angular/angularExpression";
+		return "/angular/angularBinding";
+	}
+		
 	//회원 가입
 	@RequestMapping(value="joinForm", method=RequestMethod.GET)
 	public String joinForm() {
@@ -33,7 +41,7 @@ public class MemberController {
 	@RequestMapping(value="joinCertifyAction", method=RequestMethod.POST)
 	public ModelAndView joinCertifyAction(Member member) {
 		mav = new ModelAndView();
-		mav.addObject("certification", memberService.joining(member));
+		mav.addObject("email", memberService.joining(member).getEmail());
 		mav.setViewName("/member/join/joinCertify");
 		
 		return mav;
@@ -41,7 +49,7 @@ public class MemberController {
 	@RequestMapping(value="joinCertifiedAction", method=RequestMethod.POST)
 	public ModelAndView joinCertifiedAction(Certification certification) {
 		mav = new ModelAndView();
-		mav.addObject("member", memberService.joined(certification));
+		mav.addObject("email", memberService.joined(certification).getEmail());
 		mav.setViewName("/member/join/joinCertified");
 		
 		return mav;				
@@ -56,13 +64,21 @@ public class MemberController {
 		//mav.setViewName("/member/search");
 		return mav;
 	}
+	
+	@RequestMapping(value="duplicationCheckAction", method=RequestMethod.POST)
+	@ResponseBody
+	public Duplication duplicationCheckAction(String email) {
+		if(memberService.existence(email)){
+			return new Duplication(true);
+		}
+		return new Duplication(false);
+	}
+	/*
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="duplicationCheckAction", method=RequestMethod.POST)
-	public ModelAndView duplicationCheckAction(String email) {
-		Member member = memberService.search(email);
-		
+	public ModelAndView duplicationCheckAction(String email) {			
 		JSONObject json = new JSONObject();		
-		if(member.getEmail() != null){
+		if(memberService.existence(email)){
 			json.put("member", "true");
 		}else{
 			json.put("member", "false");
@@ -70,6 +86,7 @@ public class MemberController {
 		
 		return new ModelAndView("/common/jsonHelp", "json", json);
 	}
+	 */
 	
 	/* 회원정보 수정 */
 	@RequestMapping(value="updateForm", method=RequestMethod.POST)
@@ -120,6 +137,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="loginAction", method=RequestMethod.POST)
 	public String loginAction(HttpSession session, Member member) {
+		System.out.println("loginAction");
 		Login login = (Login)session.getAttribute("login");
 		String returnView;
 		

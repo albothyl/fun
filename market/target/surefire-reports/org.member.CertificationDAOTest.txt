@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: org.member.CertificationDAOTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.125 sec <<< FAILURE!
-CertificationTest(org.member.CertificationDAOTest)  Time elapsed: 0 sec  <<< ERROR!
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.172 sec <<< FAILURE!
+CertificationTest(org.member.CertificationDAOTest)  Time elapsed: 0.063 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -129,7 +129,7 @@ Caused by: java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
 	at org.springframework.util.ClassUtils.resolveClassName(ClassUtils.java:293)
 	... 91 more
 
-certifyCompleteTest(org.member.CertificationDAOTest)  Time elapsed: 0.047 sec  <<< ERROR!
+certifyCompleteTest(org.member.CertificationDAOTest)  Time elapsed: 0.031 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)

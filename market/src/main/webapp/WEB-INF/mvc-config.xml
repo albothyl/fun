@@ -6,10 +6,21 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
-	<!-- **은 그 이하 모든 경로를 의미함 -->
-    <context:component-scan base-package="org.project.**.controller"/>
-         
+	<!-- **은 그 이하 모든 경로를 의미함 
+    <context:component-scan base-package="org.project.**.controller"/> -->
+	<context:component-scan base-package="org.project">
+       <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+    
     <mvc:annotation-driven />
+    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="messageConverters">
+    		<list>
+    			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+    		</list>
+    	</property>
+    </bean>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <property name="prefix" value="/WEB-INF/view/"/>

@@ -14,6 +14,12 @@
 		WHERE  EMAIL = #{value}
 	</select>
 	
+	<select id="existence" parameterType="String" resultType="Integer">
+	    SELECT COUNT(EMAIL)
+	    FROM   MEMBER
+		WHERE  EMAIL = #{value}
+	</select>
+	
 	<update id="update" parameterType="member">
 		UPDATE MEMBER
 		SET    PW    = #{pw}

@@ -21,6 +21,14 @@ public class MemberDAOImpl implements MemberDAO {
 	public Member search(String email) {
 		return sqlSession.selectOne("member.search", email);
 	}
+	
+	public boolean existence(String email) {
+		int existenceCnt = sqlSession.selectOne("member.existence", email);
+		if(existenceCnt == 1){
+			return true;
+		}				
+		return false;
+	}
 
 	public void update(Member member) {
 		sqlSession.update("member.update", member);

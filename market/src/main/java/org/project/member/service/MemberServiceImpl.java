@@ -37,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional
 	public Certification joining(Member member) {
+		member.setGrade(2);
 		memberDAO.join(member);
 		return certificationService.certify(member.getEmail());
 	}
@@ -55,6 +56,10 @@ public class MemberServiceImpl implements MemberService {
 
 	public Member search(String email) {
 		return memberDAO.search(email);
+	}
+	
+	public boolean existence(String email) {
+		return memberDAO.existence(email);
 	}
 
 	@Transactional
@@ -108,5 +113,5 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return false;
 	}
-	
+		
 }

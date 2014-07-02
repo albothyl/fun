@@ -1,4 +1,10 @@
-function validationCheck(){	
+function loginFormValidationCheck(){
+	if(emailCheck()==false || !nullCheck("password", $("#pw").val())){
+		return false;
+	}
+	return true;
+}
+function joinFormValidationCheck(){	
 	if(emailCheck()==false || pwCheck()==false || nickCheck()==false){
 		return false;
 	}

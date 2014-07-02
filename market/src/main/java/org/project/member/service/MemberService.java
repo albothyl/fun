@@ -14,6 +14,8 @@ public interface MemberService {
 	public Member joined(Certification certification);
 	//search
 	public Member search(String email);
+	//existence
+	public boolean existence(String email);
 	//update
 	public void update(Member member);	
 	//secede

@@ -71,6 +71,15 @@ public class MemberDAOTest {
 	}
 	
 	@Test
+	public void existenceTest() {
+		if(memberDAO.existence(joinMember.getEmail())){
+			System.out.println("existence");
+		}else{
+			System.out.println("not existence");
+		}		
+	}	
+	
+	@Test
 	public void updateTest() {
 		searchedMember = memberDAO.search(updateMember.getEmail());
 		System.out.println("before update " + searchedMember.toString());

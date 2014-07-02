@@ -11,64 +11,69 @@
 	<meta name="author"      content=""/>
 
 	<title>joinForm</title>
-	
-	<link rel="stylesheet" href="/css/user/userCSS.css">		
+	<!-- 
+	<link rel="stylesheet" href="/css/user/userCSS.css"> -->
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<script src="/javaScript/angular/angular.min.js"></script>
 	<script src="/javaScript/jQuery/jquery-2.1.1.min.js"></script>	
-	<script src="/javaScript/user/memberValidationCheck.js"></script>	
+	<script src="/javaScript/user/memberValidationCheck.js"></script>
 	
 	<script>
-		var emailDuplicationCheck = false;
-	
-		$(document).ready(function()
-		{	
-			$("#joinSubmit").click(function(){
-				if(validationCheck()){
+	var emailDuplicationCheck = false;
+
+	$(document).ready(function()
+	{	
+		$("#joinSubmit").click(function(){
+			if(emailDuplicationCheck){
+				if(joinFormValidationCheck()){
 					var joinForm    =  document.getElementById("memberJoinForm");
 					joinForm.action = "/member/joinCertifyAction.do";
 					joinForm.method = "POST";
 					joinForm.submit();
 				}
-			});
-			
-			$("#joinCancle").click(function(){
-				history.back();
-			});
-			
-			$("#duplicationCheck").click(function(){
-				
-				var email = $("#email").val();
-				
-				if(!nullCheck("email", email)){
-					return false;
-				}
-				
-				$.ajax({
-					type:"POST",
-					url:"/member/duplicationCheckAction.do",
-					data:{'email':email},
-					dataType:"JSON",
-					success : function(data) {
-						$.each(data, function(value){
-							if(value == true){
-								$("#eMailDupInfo").text("사용가능한 이메일입니다.");
-								emailDuplicationCheck = true;
-							}else{
-								$("#eMailDupInfo").text("이미 사용중인 E-MAIL입니다.");
-								emailDuplicationCheck = false;
-							}
-						});
-					},
-					// 통신이 실패했어도 완료가 되었을 때 이 함수를 타게 된다.
-					complete : function(data) {					 
-					},
-					error : function(xhr, status, error) {
-					 alert("에러발생");
-					}
-				});
-			});
-			
+			}else{
+				alert("E-MAIL중복체크를 해주시기 바랍니다.")
+			}
 		});
+		
+		$("#cancle").click(function(){
+			history.back();
+		});
+		
+		$("#duplicationCheck").click(function(){
+			
+			var email = $("#email").val();
+			
+			if(!nullCheck("email", email)){
+				return false;
+			}
+			
+			$.ajax({
+				type:"POST",
+				url:"/member/duplicationCheckAction.do",
+				data:{'email':email},
+				dataType:"JSON",
+				success : function(data) {
+					$.each(data, function(key, value){
+						if(value == false){
+							$("#eMailDupInfo").text("사용가능한 이메일입니다.");
+							emailDuplicationCheck = true;
+						}else if(value == true){
+							$("#eMailDupInfo").text("이미 사용중인 E-MAIL입니다.");
+							emailDuplicationCheck = false;
+						}
+					});
+				},
+				// 통신이 실패했어도 완료가 되었을 때 이 함수를 타게 된다.
+				complete : function(data) {
+				},
+				error : function(xhr, status, error) {
+					alert("에러발생");
+				}
+			});			
+		});
+		
+	});
 	</script>
 
 </head>
@@ -91,7 +96,7 @@
 				<div class="userInput"><input type="text" name="nick" id="nick" value="" maxlength="20" /></div>
 			<div class="clear"></div>
 				<input type="button" class="btn" id="joinSubmit" value="확인" />
-				<input type="button" class="btn" id="joinCancle" value="취소" />
+				<input type="button" class="btn" id="cancle" value="취소" />
 		</div>
 	</form>
 </body>

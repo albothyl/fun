@@ -10,6 +10,8 @@ public interface MemberDAO {
 	public void join(Member member);
 	//read
 	public Member search(String email);
+	//existence
+	public boolean existence(String email);
 	//update
 	public void update(Member member);	
 	//delete
