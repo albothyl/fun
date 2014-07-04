@@ -30,7 +30,21 @@ public class MemberController {
 	public String angularForm() {
 		//return "/member/angularForm";
 		//return "/angular/angularExpression";
-		return "/angular/angularBinding";
+		//return "/angular/angularBinding";
+		//return "/angular/angularRepeat";
+		//return "/angular/angularSwitch";
+		//return "/angular/angularIf";
+		//return "/angular/angularShowHide";
+		//return "/angular/angularController";
+		//return "/angular/angularValidation1";
+		//return "/angular/angularValidation2";
+		//return "/angular/angularValidation3";
+		//return "/angular/angularValidation4";
+		//return "/angular/angularEvent1";
+		//return "/angular/angularEvent2";
+		//return "/angular/angularEvent3";
+		//return "/angular/angularScope1";
+		return "/angular/angularScope2";
 	}
 		
 	//회원 가입
