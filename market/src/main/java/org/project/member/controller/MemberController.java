@@ -1,6 +1,7 @@
 package org.project.member.controller;
 
 import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +12,7 @@ import org.project.member.dto.Login;
 import org.project.member.dto.Member;
 import org.project.member.service.MemberService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,7 +46,17 @@ public class MemberController {
 		//return "/angular/angularEvent2";
 		//return "/angular/angularEvent3";
 		//return "/angular/angularScope1";
-		return "/angular/angularScope2";
+		//return "/angular/angularScope2";
+		return "/angular/angularHttp";
+	}
+	@RequestMapping(value="angularAjaxAction", method=RequestMethod.POST)
+	@ResponseBody
+	public Member angularHttpAjaxAction(@RequestBody Member member) {
+		System.out.println("angularHttpAjaxAction in");
+		System.out.println(member.toString());
+		member.setPw("test_password");
+		member.setNick("test_nick");
+		return member;
 	}
 		
 	//회원 가입
@@ -87,20 +99,6 @@ public class MemberController {
 		}
 		return new Duplication(false);
 	}
-	/*
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value="duplicationCheckAction", method=RequestMethod.POST)
-	public ModelAndView duplicationCheckAction(String email) {			
-		JSONObject json = new JSONObject();		
-		if(memberService.existence(email)){
-			json.put("member", "true");
-		}else{
-			json.put("member", "false");
-		}
-		
-		return new ModelAndView("/common/jsonHelp", "json", json);
-	}
-	 */
 	
 	/* 회원정보 수정 */
 	@RequestMapping(value="updateForm", method=RequestMethod.POST)
