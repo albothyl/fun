@@ -47,7 +47,9 @@ public class MemberController {
 		//return "/angular/angularEvent3";
 		//return "/angular/angularScope1";
 		//return "/angular/angularScope2";
-		return "/angular/angularHttp";
+		//return "/angular/angularHttp";
+		//return "/angular/angularEmail";
+		return "/angular/angularJoinForm";
 	}
 	@RequestMapping(value="angularAjaxAction", method=RequestMethod.POST)
 	@ResponseBody
