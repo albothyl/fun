@@ -15,9 +15,11 @@
 	</select>
 	
 	<select id="existence" parameterType="String" resultType="Integer">
+	<![CDATA[
 	    SELECT COUNT(EMAIL)
 	    FROM   MEMBER
 		WHERE  EMAIL = #{value}
+	]]>
 	</select>
 	
 	<update id="update" parameterType="member">

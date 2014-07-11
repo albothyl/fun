@@ -85,7 +85,7 @@ public class MemberController {
 
 	/* 회원 조회  */
 	@RequestMapping(value="searchAction", method=RequestMethod.POST)
-	public ModelAndView searchAction(String email) {
+	public ModelAndView searchAction(String email) {		
 		mav = new ModelAndView();
 		mav.addObject("member", memberService.search(email));
 		//view를 지정하지 않았을 때 자신을 호출한 jsp로 리턴되던걸로 기억하는데 이를 테스트해야함.
@@ -95,8 +95,8 @@ public class MemberController {
 	
 	@RequestMapping(value="duplicationCheckAction", method=RequestMethod.POST)
 	@ResponseBody
-	public Duplication duplicationCheckAction(String email) {
-		if(memberService.existence(email)){
+	public Duplication duplicationCheckAction(@RequestBody Member member) {
+		if(memberService.existence(member.getEmail())){
 			return new Duplication(true);
 		}
 		return new Duplication(false);
