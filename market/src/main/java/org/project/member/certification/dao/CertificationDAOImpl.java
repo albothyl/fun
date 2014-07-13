@@ -1,7 +1,7 @@
 package org.project.member.certification.dao;
 
 import org.apache.ibatis.session.SqlSession;
-import org.project.member.certification.dto.Certification;
+import org.project.member.certification.domain.Certification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

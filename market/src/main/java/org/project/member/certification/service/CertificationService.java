@@ -1,6 +1,6 @@
 package org.project.member.certification.service;
 
-import org.project.member.certification.dto.Certification;
+import org.project.member.certification.domain.Certification;
 
 public interface CertificationService {
 	//certification

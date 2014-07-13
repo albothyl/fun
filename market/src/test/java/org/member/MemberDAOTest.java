@@ -3,6 +3,7 @@ package org.member;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,8 +14,8 @@ import org.junit.runner.RunWith;
 import org.project.common.util.key.RandomKey;
 import org.project.common.vo.PageVO;
 import org.project.member.dao.MemberDAO;
-import org.project.member.dto.Grade;
-import org.project.member.dto.Member;
+import org.project.member.domain.Grade;
+import org.project.member.domain.Member;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -50,7 +51,7 @@ public class MemberDAOTest {
 	}
 
 	@Test
-	public void joinTest() {
+	public void joinTest() throws SQLException {
 		memberDAO.join(joinMember);
 		searchedMember = memberDAO.search(joinMember.getEmail());
 		
@@ -61,7 +62,7 @@ public class MemberDAOTest {
 	}
 	
 	@Test
-	public void searchTest() {
+	public void searchTest() throws SQLException {
 		searchedMember = memberDAO.search(joinMember.getEmail());
 		
 		assertThat(joinMember.getEmail(), is(searchedMember.getEmail()));
@@ -80,7 +81,7 @@ public class MemberDAOTest {
 	}	
 	
 	@Test
-	public void updateTest() {
+	public void updateTest() throws SQLException {
 		searchedMember = memberDAO.search(updateMember.getEmail());
 		System.out.println("before update " + searchedMember.toString());
 		

@@ -3,15 +3,37 @@
 <!doctype html>
 
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Welcome</title>
-	</head> 
-	<body>
-		<a href="/member/angularForm.do">Angular</a>
-		<a href="/member/joinForm.do">회원가입</a> 
-		<a href="/member/loginForm.do">로그인</a>
-		<a href="/member/findPwForm.do">회원정보 수정</a>
-		<a href="/member/findPwForm.do">비밀번호 찾기</a>
-	</body>
+
+<head>
+	<meta charset="utf-8">
+	
+	<title>Welcome</title>
+	
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/include/css/user/userCSS.css">
+</head>
+ 
+<body>
+
+	<div id="all">
+		<div id="top">
+			<%@ include file='/include/basicLayout/top.jsp'%>
+		</div>
+		
+		<div id="middle">
+			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			
+			<div id="main">
+				7
+			</div>
+		</div>
+		
+		<div id="bottom">
+			<%@ include file='/include/basicLayout/bottom.jsp'%>
+		</div>
+		
+	</div>
+	
+</body>
+
 </html>

@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.project.common.util.key.RandomKey;
 import org.project.member.certification.dao.CertificationDAO;
-import org.project.member.certification.dto.Certification;
+import org.project.member.certification.domain.Certification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

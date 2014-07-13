@@ -1,25 +1,26 @@
 package org.project.member.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.project.common.vo.PageVO;
-import org.project.member.dto.Member;
+import org.project.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("memberDAO")
-public class MemberDAOImpl implements MemberDAO {
+public class MemberDAOImpl implements MemberDAO  {
 	
 	@Autowired
 	private SqlSession sqlSession;
 
-	public void join(Member member) {
-		sqlSession.insert("member.join", member);
+	public void join(Member member) {		
+		sqlSession.insert("member.join", member);		
 	}
 
-	public Member search(String email) {
-		return sqlSession.selectOne("member.search", email);
+	public Member search(String email) throws SQLException {
+		return sqlSession.selectOne("member.search", email);		
 	}
 	
 	public boolean existence(String email) {

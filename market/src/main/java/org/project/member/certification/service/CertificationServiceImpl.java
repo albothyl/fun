@@ -6,7 +6,7 @@ import javax.mail.MessagingException;
 import org.project.common.util.key.RandomKey;
 import org.project.common.util.mail.MailSender;
 import org.project.member.certification.dao.CertificationDAO;
-import org.project.member.certification.dto.Certification;
+import org.project.member.certification.domain.Certification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +24,9 @@ public class CertificationServiceImpl implements CertificationService {
 	
 	@Transactional
 	public Certification certify(String email) {
+		//기존에 인증요청했으나 인증키를 입력해서 보내지 않았으면 이전에 요청해서 만들어진 입력키가 있으므로 삭제
+		certificationDAO.certifyComplete(email);
+		//새 인증작업 시작
 		Certification certification = new Certification(email, randomKey.intRandomKey());		
 		certificationDAO.certify(certification);
 		mailSend(certification);

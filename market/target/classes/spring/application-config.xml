@@ -13,14 +13,16 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 
-    <context:component-scan base-package="org.project"/> -->
+    
+    <!-- base-package 경로 아래 @Controller를 찾아 spring bean으로 등록 -->
     <context:component-scan base-package="org.project">
        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
     
+    <!-- @Transactional 을 찾아 명시적 트랜젝션 설정 -->
     <tx:annotation-driven /> 
-        
+    
+	<!-- location 경로에 있는 database 접속데이터 불러옴 -->
     <context:property-placeholder location="classpath:database/connect/database.properties"/>
     
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">

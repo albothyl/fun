@@ -9,8 +9,8 @@
     </settings>
     
     <typeAliases>
-        <typeAlias alias="member"  type="org.project.member.dto.Member"></typeAlias>
-        <typeAlias alias="certificate" type="org.project.member.certification.dto.Certification"></typeAlias>
+        <typeAlias alias="member"  type="org.project.member.domain.Member"></typeAlias>
+        <typeAlias alias="certificate" type="org.project.member.certification.domain.Certification"></typeAlias>
         <typeAlias alias="page"    type="org.project.common.vo.PageVO"></typeAlias>
     </typeAliases>
     

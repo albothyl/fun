@@ -11,17 +11,19 @@
 	<context:component-scan base-package="org.project">
        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
-    
+     
     <mvc:annotation-driven />
+    <!--  
+    <mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+				<property name="supportedMediaTypes" value="application/json" />
+			</bean>           
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	 -->
+	<bean id="localValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
     
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-    	<property name="messageConverters">
-    		<list>
-    			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-    		</list>
-    	</property>
-    </bean>
-
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <property name="prefix" value="/WEB-INF/view/"/>
 	        <property name="suffix" value=".jsp"/>

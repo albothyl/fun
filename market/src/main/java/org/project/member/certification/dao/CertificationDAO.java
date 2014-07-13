@@ -1,6 +1,6 @@
 package org.project.member.certification.dao;
 
-import org.project.member.certification.dto.Certification;
+import org.project.member.certification.domain.Certification;
 
 public interface CertificationDAO {
 	//certification

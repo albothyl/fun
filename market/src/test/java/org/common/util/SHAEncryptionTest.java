@@ -28,20 +28,17 @@ public class SHAEncryptionTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		password = "password";
+		password = "9799";
 	}
 	
 	@Test
-	public void shaTest() {		
-		if( sha.encryption(password, Algorithm.SHA512.stringValue()) ) {
-			System.out.println(Algorithm.SHA512);
-			System.out.println(password + " -> " + sha.getPassword());			
-		}
+	public void shaTest() {
+		System.out.println(Algorithm.SHA512.stringValue());
+		System.out.println(password + " -> " + sha.encryption(password, Algorithm.SHA512.stringValue()));
 		
-		if( sha.encryption(password, Algorithm.SHA256.stringValue()) ) {
-			System.out.println(Algorithm.SHA256);
-			System.out.println(password + " -> " + sha.getPassword());			
-		}
+		
+		System.out.println(Algorithm.SHA256.stringValue());
+		System.out.println(password + " -> " + sha.encryption(password, Algorithm.SHA256.stringValue()));
 	}	
 
 }

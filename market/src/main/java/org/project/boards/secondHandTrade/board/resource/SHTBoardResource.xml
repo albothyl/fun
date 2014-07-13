@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="jhwbq">
+
+	<typeAlias alias="jhwBoardVO"     type="org.blog.anyangBoard.jhwBoard.board.vo.jhwBoardVO"/>
+	<typeAlias alias="jhwBoardListVO" type="org.blog.anyangBoard.jhwBoard.board.vo.jhwBoardVOList"/>
+	<typeAlias alias="cri"            type="org.blog.common.util.Criteria"/>
+	
+	<insert id="write" parameterClass="jhwBoardVO">
+		INSERT INTO 
+			TBL_BOARD(BBSNO
+		           ,  SUBJECTCODE
+		           ,  TITLE
+		           ,  CONTENT
+		           ,  WRITER)
+			   VALUES(TBL_BOARD_BBSNO_SEQ.NEXTVAL
+			       , #subjectCode#
+			       , #title#
+			       , #content#
+			       , #writer#)
+	</insert>
+	
+	<select id="read" parameterClass="Integer" resultClass="jhwBoardVO">
+		SELECT B.BBSNO        bbsNo
+		     , B.SUBJECTCODE  subjectCode
+		     , C.CODENAME     subjectName
+		     , B.TITLE        title
+		     , B.CONTENT      content
+		     , B.WRITER       writer
+		     , B.RECOMMENDCNT recommendCnt
+		     , B.READCNT      readcnt
+		     , TO_CHAR(B.CREATEDATE, 'yyyy-mm-dd') createDate
+		FROM   TBL_BOARD B, TBL_CODE C
+		WHERE  B.BBSNO       = #bbsNo#
+		AND    B.SUBJECTCODE = C.CODE
+	</select>
+
+	<update id="update" parameterClass="jhwBoardVO">
+		UPDATE TBL_BOARD
+		SET    SUBJECTCODE = DECODE(#subjectCode#, 0, SUBJECTCODE, #subjectCode#)
+			 , TITLE       = NVL2(#title#, #title#, TITLE)
+		     , CONTENT     = NVL2(#content#, #content#, CONTENT)		     
+		WHERE  BBSNO       = #bbsNo#
+	</update>
+	
+	<update id="updateReadCnt" parameterClass="Integer">
+		UPDATE TBL_BOARD
+		SET    READCNT = READCNT + 1	     
+		WHERE  BBSNO   = #bbsNo#
+	</update>
+	
+	<delete id="delete" parameterClass="Integer">
+		DELETE FROM TBL_BOARD
+		WHERE  BBSNO = #bbsNo#
+	</delete>
+<!--
+향후 REPLY 추가하면 LIST에 REPLYCNT 추가해야함
+, B.TITLE title 아래에 
+, B.GET_REPLYCNT(bbsNo) replyCnt 추가
+-->
+	<select id="list" parameterClass="cri" resultClass="jhwBoardListVO">
+	<![CDATA[
+		SELECT B.SUBJECTCODE subjectCode
+		     , C.CODENAME    subjectName
+		     , B.BBSNO       bbsNo
+		     , B.TITLE       title
+		     , B.WRITER      writer
+		     , B.CREATEDATE  createDate		     			
+		     , B.READCNT     readCnt
+		     , RECOMMENDCNT  recommendCnt
+		     , B.TOTALCNT    totalCnt
+		     , #pageNo#      pageNo
+		     , 2             replyCnt
+		FROM (
+		        SELECT /*+INDEX_DESC(TBL_BOARD TBL_BOARD_PK_BBSNO)*/ 
+		               SUBJECTCODE
+		             , BBSNO
+		             , TITLE
+		             , WRITER
+		             , CREATEDATE
+		             , READCNT
+		             , RECOMMENDCNT
+		             , COUNT(*)OVER() TOTALCNT
+		        FROM  TBL_BOARD
+		        WHERE BBSNO       > 0
+		        AND   SUBJECTCODE = #subjectCode#
+		        $sql$
+		     ) B, TBL_CODE C
+		WHERE ROWNUM       >  (#pageNo# - 1)*10
+		AND   ROWNUM       <= (#pageNo# * 10)
+		AND   B.SUBJECTCODE = C.CODE
+		
+		ORDER BY BBSNO DESC
+	]]>
+	</select>
+		
+</sqlMap>

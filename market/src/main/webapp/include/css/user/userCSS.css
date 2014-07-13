@@ -1,0 +1,66 @@
+#all {
+	position: relative;
+	width: 1274px;
+	/* div 중앙 정령 및 고정 */
+	margin: 0 auto;
+	
+}
+
+#top {
+	background-color: lime;
+	width: 1274px;
+	height: 80px;
+	clear: both;
+}
+#banner {
+	background-color: green;
+	width: 167px;
+	height: 80px;
+	float: left;
+}
+#header {
+	background-color: aqua;
+	width: 770px;
+	height: 80px;
+	float: left;
+}
+#loginForm {
+	background-color: black;
+	width: 337px;
+	height: 80px;
+	float: left;
+}
+
+#middle {
+	background-color: olive;
+	width: 1274px;
+	height: auto;
+	clear: both;
+}
+#leftMenuBar {
+	background-color: yellow;
+	float: left;
+	width: 167px;
+	height: auto;
+	overflow: auto;
+	/* 스크롤바 강제 생성
+	overflow: scroll;
+	*/ 
+}
+#main {
+	background-color: gray;
+	float: left;
+	width: 1107px;
+	height: auto;
+	overflow: auto;
+	/* 스크롤바 강제 생성
+	overflow: scroll;
+	*/ 
+}
+
+#bottom {
+	background-color: orange;
+	width: 1274px;
+	height: 50px;
+	clear: both;
+}

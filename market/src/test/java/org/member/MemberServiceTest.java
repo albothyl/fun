@@ -3,6 +3,7 @@ package org.member;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,9 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.project.common.util.key.RandomKey;
 import org.project.common.vo.PageVO;
-import org.project.member.certification.dto.Certification;
-import org.project.member.dto.Grade;
-import org.project.member.dto.Member;
+import org.project.member.certification.domain.Certification;
+import org.project.member.domain.Grade;
+import org.project.member.domain.Member;
 import org.project.member.service.MemberService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -53,7 +54,7 @@ public class MemberServiceTest {
 	}
 
 	@Test
-	public void joinTest() {
+	public void joinTest() throws SQLException {
 		memberService.joining(joinMember);
 		searchedMember = memberService.search(joinMember.getEmail());
 				
@@ -64,7 +65,7 @@ public class MemberServiceTest {
 	}
 	
 	@Test
-	public void joinedTest() {
+	public void joinedTest() throws SQLException {
 		memberService.joining(joinMember);
 		//memberService.joined(certification);
 		
@@ -75,7 +76,7 @@ public class MemberServiceTest {
 	}
 	
 	@Test
-	public void searchTest() {
+	public void searchTest() throws SQLException {
 		searchedMember = memberService.search(joinMember.getEmail());
 		
 		assertThat(joinMember.getEmail(), is(searchedMember.getEmail()));
@@ -85,7 +86,7 @@ public class MemberServiceTest {
 	}
 	
 	@Test
-	public void updateTest() {
+	public void updateTest() throws SQLException {
 		searchedMember = memberService.search(joinMember.getEmail());
 		System.out.println("before update " + searchedMember.toString());
 		

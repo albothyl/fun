@@ -7,16 +7,12 @@ import org.project.common.system.customAnnotation.Util;
 
 @Util("shaEncryption")
 public class SHA {
-	private String savePassword;
-	
-	public boolean encryption(String inputPassword, String Algorithm) {
+
+	public String encryption(String inputPassword, String Algorithm) {
 		MessageDigest md;
-	    boolean isSuccess;
-	    String  tempPassword = "";
-	
+	    String  savePassword = "";	    
 	    try {
 	        md = MessageDigest.getInstance(Algorithm);
-	
 	        md.update(inputPassword.getBytes());
 	        byte[] mb = md.digest();
 	        for (int i = 0; i < mb.length; i++) {
@@ -26,22 +22,12 @@ public class SHA {
 	                s = "0" + s;
 	            }
 	            s = s.substring(s.length() - 2);
-	            tempPassword += s;
+	            savePassword += s;
 	        }
-	        setPassword(tempPassword);
-	        isSuccess = true;
+	        return savePassword;
 	    } catch (NoSuchAlgorithmException e) {
-	        isSuccess = false;
-	        return isSuccess;
-	    }
-	    return isSuccess;
+	        return "";
+	    }	    
 	}
 
-	private void setPassword(String temppassword) {
-	    this.savePassword = temppassword;
-	}
-	
-	public String getPassword() {
-	    return savePassword;
-	}
 }
