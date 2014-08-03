@@ -1,148 +1,62 @@
 package org.project.boards.secondHandTrade.board.dao;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.project.boards.secondHandTrade.board.domain.SHTBoard;
+import org.project.common.vo.ListVO;
+import org.project.common.vo.PageVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-@Repository("")
+@Repository("shtBoardDao")
 public class SHTBoardDAOImpl implements SHTBoardDAO{
-/*	
-	@Resource(name="sqlMapClient")
-	private SqlMapClient JboardQuery;
 	
-	@Override
-	public int write(jhwBoardVO vo) {
-
-		System.out.println("jhwDAOImpl      :: write");
+	private static final Logger logger = LoggerFactory.getLogger(SHTBoardDAOImpl.class);
+	
+	@Inject
+	private SqlSession sqlSession;
+	
+	public void write(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		try {
+		sqlSession.insert("SHTBoard.write", shtBoard);
+	}
+	
+	public SHTBoard read(SHTBoard shtBoard) {
+		System.out.println(shtBoard.toString());
+		try{
+			shtBoard = sqlSession.selectOne("SHTBoard.read", shtBoard);
 			
-			JboardQuery.insert("jhwbq.write", vo);
-			
-		} catch (SQLException e) {
-			if(e.getErrorCode() != defineCode.SQLCODE_GOOD)
-			{
-				System.out.println("SQL ERROR CODE  :: " + e.getErrorCode());
-				
-				if(e.getErrorCode() != defineCode.SQLCODE_DUP)
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					return defineCode.SQLCODE_DUP;
-				}
-				else
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					return defineCode.SQLCODE_ELSE;
-				}
-			}
+			logger.debug("input : " + shtBoard.toString());
+		}catch(Exception e){
+			shtBoard.setResultYN(false);
 		}
 		
-		return defineCode.SQLCODE_GOOD;
-		
+		return shtBoard;
 	}
-
-	@Override
-	public jhwBoardVO read(int bbsNo) {
+	
+	public void update(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		System.out.println("jhwDAOImpl      :: read");
-
-		jhwBoardVO vo = null;
-		
-		try {
-			
-			vo = (jhwBoardVO) JboardQuery.queryForObject("jhwbq.read", bbsNo);
-			
-		} catch (SQLException e) {
-			if(e.getErrorCode() != defineCode.SQLCODE_GOOD)
-			{			
-				vo = new jhwBoardVO();
-				
-				System.out.println("SQL ERROR CODE  :: " + e.getErrorCode());
-				
-				if(e.getErrorCode() != defineCode.SQLCODE_NOTFOUND)
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					vo.setError_code(defineCode.SQLCODE_NOTFOUND);
-					return vo;
-				}
-				else
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					vo.setError_code(defineCode.SQLCODE_ELSE);
-					return vo;
-				}
-			}
-		}
-		
-		return vo;
+		sqlSession.update("SHTBoard.update", shtBoard);
 	}
-
-	@Override
-	public int update(jhwBoardVO vo) {
+	
+	public void delete(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		System.out.println("jhwDAOImpl      :: update");
-		
-		try {
-			
-			JboardQuery.update("jhwbq.update", vo);
-			
-		} catch (SQLException e) {
-			if(e.getErrorCode() != defineCode.SQLCODE_GOOD)
-			{
-				System.out.println("SQL ERROR CODE  :: " + e.getErrorCode());
-				
-				if(e.getErrorCode() != defineCode.SQLCODE_NOTFOUND)
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					return defineCode.SQLCODE_NOTFOUND;
-				}
-				else
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					return defineCode.SQLCODE_ELSE;
-				}
-			}
-		}
-		
-		return defineCode.SQLCODE_GOOD;
+		sqlSession.delete("SHTBoard.delete", shtBoard);
 	}
-
-	@Override
-	public int delete(int bbsNo) {
+	
+	public PageVO<ListVO> list(PageVO<ListVO> pageVO) {
+		logger.debug("input : " + pageVO.toString());
 		
-		System.out.println("jhwDAOImpl      :: delete");
-
-		try {
-			
-			JboardQuery.delete("jhwbq.delete", bbsNo);
-			
-		} catch (SQLException e) {
-			if(e.getErrorCode() != defineCode.SQLCODE_GOOD)
-			{
-				System.out.println("SQL ERROR CODE  :: " + e.getErrorCode());
-				
-				if(e.getErrorCode() != defineCode.SQLCODE_NOTFOUND)
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					return defineCode.SQLCODE_NOTFOUND;
-				}
-				else
-				{
-					System.out.println("SQL ERROR MSG   :: " + e.getMessage());
-					return defineCode.SQLCODE_ELSE;
-				}
-			}
-		}
-		
-		return defineCode.SQLCODE_GOOD;
+		List<ListVO> resultList = sqlSession.selectList("SHTBoard.list", pageVO);		
+		pageVO.setListInfo(resultList);
+		return pageVO;
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<jhwBoardVOList> list(Criteria cri) throws Exception{
-		
-		System.out.println("jhwDAOImpl      :: list");
-		
-		return JboardQuery.queryForList("jhwbq.list", cri);
-		
-	}
-*/
+	
 }

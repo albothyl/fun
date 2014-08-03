@@ -1,52 +1,56 @@
 package org.project.boards.secondHandTrade.board.service;
 
+import javax.annotation.Resource;
+
+import org.project.boards.secondHandTrade.board.dao.SHTBoardDAO;
+import org.project.boards.secondHandTrade.board.domain.SHTBoard;
+import org.project.common.vo.ListVO;
+import org.project.common.vo.PageVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service("jhwService")
+
+@Service("shtBoardService")
 public class SHTBoardServiceImpl implements SHTBoardService{
-/*
-	@Resource(name="jhwDAO")
-	jhwDAO boardDAO;
 	
-	@Override
-	public int write(jhwBoardVO vo) {
+	private static final Logger logger = LoggerFactory.getLogger(SHTBoardServiceImpl.class);
+	
+	@Resource(name="shtBoardDao")
+	SHTBoardDAO shtBoardDao;
+	
+	@Transactional
+	public void write(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		System.out.println("jhwServiceImpl  :: write");
-		
-		return boardDAO.write(vo);
-		
+		shtBoardDao.write(shtBoard);
 	}
-
-	@Override
-	public jhwBoardVO read(int bbsNo) {	
+	
+	public SHTBoard read(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		System.out.println("jhwServiceImpl  :: read");
-		
-		return boardDAO.read(bbsNo);
+		SHTBoard readResult = shtBoardDao.read(shtBoard);
+		return readResult;
 	}
-
-	@Override
-	public int update(jhwBoardVO vo) {
+	
+	@Transactional
+	public void update(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		System.out.println("jhwServiceImpl  :: update");
-		
-		return boardDAO.update(vo);
+		shtBoardDao.update(shtBoard);
 	}
-
-	@Override
-	public int delete(int bbsNo) {
+	
+	@Transactional
+	public void delete(SHTBoard shtBoard) {
+		logger.debug("input : " + shtBoard.toString());
 		
-		System.out.println("jhwServiceImpl  :: delete");
-		
-		return boardDAO.delete(bbsNo);
+		shtBoardDao.delete(shtBoard);
 	}
-
-	@Override
-	public List<jhwBoardVOList> list(Criteria cri) throws Exception {
+	
+	public PageVO<ListVO> list(PageVO<ListVO> pageVO) {
+		logger.debug("input : " + pageVO.toString());
 		
-		System.out.println("jhwServiceImpl  :: list");
-		
-		return boardDAO.list(cri);
+		return shtBoardDao.list(pageVO);		
 	}
-*/
 }

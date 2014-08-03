@@ -1,5 +1,6 @@
 package org.project.member.certification.domain;
 
+import org.project.common.system.globalCode.defineCode;
 import org.project.common.vo.ResultVO;
 
 public class Certification extends ResultVO {
@@ -38,14 +39,14 @@ public class Certification extends ResultVO {
 	
 	//향후 code 상수화
 	public void ceritifyCationOk() {
-		super.resultCode = 1;
+		super.resultCode = defineCode.IS_OK;
 	}
 	public void ceritifyCationNotFoundEmail() {
-		super.resultCode = 2;
+		super.resultCode = defineCode.NOT_FOUND_EMAIL;
 		super.resultMessage = "입력하신 email이 없습니다.<br/> 회원가입을 먼저 해주시기 바랍니다.<br/>";
 	}
 	public void ceritifyCationDiscrepant() {
-		super.resultCode = 3;
+		super.resultCode = defineCode.WRONG_CERIFICATION_KEY;
 		super.resultMessage = "입력하신 인증번호가 틀렸습니다.<br/> 다시 인증해주시기 바랍니다.<br/>";
 	}
 	

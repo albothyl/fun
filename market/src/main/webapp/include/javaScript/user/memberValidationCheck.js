@@ -68,8 +68,10 @@ function nickCheck(){
 }
 //null 체크
 function nullCheck(where, val){
+	val = $.trim(val);
+	
 	if(val.length <= 0){
-		alert(where + "입력해주세요");
+		alert(where + "입력해주시기 바랍니다.");
 		return false;
 	}
 	return true;

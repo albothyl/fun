@@ -20,7 +20,7 @@
 	<script src="/include/javaScript/user/memberValidationCheck.js"></script>
 	
 	<script>
-	$(document).ready(function()
+	$().ready(function()
 	{
 	     $("#loginSubmit").click(function(){
 	          if(loginFormValidationCheck()){
@@ -46,11 +46,11 @@
 		</div> <!-- end all -->
 		
 		<div id="middle">
-			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			<%@ include file='/include/basicLayout/leftSideMenuBar.jsp'%>
 			
 			<div id="main">
 				<h1>loginForm</h1>
-	
+				
 				<c:choose>
 					<c:when test="${login.loginYN == true}">
 						<div>

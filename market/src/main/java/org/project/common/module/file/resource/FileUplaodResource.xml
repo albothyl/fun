@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<mapper namespace="file">		
+	<insert id="write" parameterType="file">
+		INSERT INTO 
+			IMG_FILE(CONVERTFILENAME
+		          ,  UPLOADPATH
+		          ,  BBSNO
+		          ,  USERID
+		          ,  ORGFILENAME)
+			 VALUES(#{convertFileName}
+			      , #{uploadPath}
+			      , #{bbsno}
+			      , #{userID}
+			      , #{orgFileName})
+	</insert>
+
+	<select id="list" parameterType="Integer" resultType="file">
+	<![CDATA[
+		SELECT CONVERTFILENAME
+		    ,  UPLOADPATH
+		    ,  BBSNO
+		    ,  USERID
+		    ,  ORGFILENAME
+		FROM   IMG_FILE
+		WHERE  BBSNO = #{BBSNO}
+		
+		ORDER BY CREATE CREATEDATE
+	]]>
+	</select>
+</mapper>

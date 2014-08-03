@@ -22,6 +22,9 @@
     <!-- @Transactional 을 찾아 명시적 트랜젝션 설정 -->
     <tx:annotation-driven /> 
     
+    <!-- aop -->
+    <aop:aspectj-autoproxy/>    
+    
 	<!-- location 경로에 있는 database 접속데이터 불러옴 -->
     <context:property-placeholder location="classpath:database/connect/database.properties"/>
     

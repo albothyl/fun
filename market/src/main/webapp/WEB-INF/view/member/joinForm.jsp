@@ -21,7 +21,7 @@
 	<script>
 	var emailDuplicationCheck = false;
 
-	$(document).ready(function()
+	$().ready(function()
 	{	
 		$("#eMailDupInfo").text("E-MAIL 중복체크를 해주시기 바랍니다.");
 		
@@ -95,7 +95,7 @@
 		</div> <!-- end all -->
 		
 		<div id="middle">
-			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			<%@ include file='/include/basicLayout/leftSideMenuBar.jsp'%>
 			
 			<div id="main">
 				<h1>joinForm</h1>

@@ -1,101 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE sqlMap      
-    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
-    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
-    
-<sqlMap namespace="jhwbq">
-
-	<typeAlias alias="jhwBoardVO"     type="org.blog.anyangBoard.jhwBoard.board.vo.jhwBoardVO"/>
-	<typeAlias alias="jhwBoardListVO" type="org.blog.anyangBoard.jhwBoard.board.vo.jhwBoardVOList"/>
-	<typeAlias alias="cri"            type="org.blog.common.util.Criteria"/>
-	
-	<insert id="write" parameterClass="jhwBoardVO">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SHTBoard">
+	<insert id="write" parameterType="shtBoard">
 		INSERT INTO 
-			TBL_BOARD(BBSNO
-		           ,  SUBJECTCODE
-		           ,  TITLE
-		           ,  CONTENT
-		           ,  WRITER)
-			   VALUES(TBL_BOARD_BBSNO_SEQ.NEXTVAL
-			       , #subjectCode#
-			       , #title#
-			       , #content#
-			       , #writer#)
+			SHTBOARD(TRADENO
+		           , SUBJECTCODE
+		           , TRADESTATUS
+		           , TITLE
+		           , CONTENT
+		           , WRITEREMAIL)
+			  VALUES(SHTBOARD_TRADENO_SEQ.NEXTVAL
+			       , #{subjectCode}
+			       , #{tradeStatusCode}
+			       , TRIM(#{title})
+			       , #{content}
+			       , #{email})
 	</insert>
 	
-	<select id="read" parameterClass="Integer" resultClass="jhwBoardVO">
-		SELECT B.BBSNO        bbsNo
-		     , B.SUBJECTCODE  subjectCode
-		     , C.CODENAME     subjectName
-		     , B.TITLE        title
-		     , B.CONTENT      content
-		     , B.WRITER       writer
-		     , B.RECOMMENDCNT recommendCnt
-		     , B.READCNT      readcnt
-		     , TO_CHAR(B.CREATEDATE, 'yyyy-mm-dd') createDate
-		FROM   TBL_BOARD B, TBL_CODE C
-		WHERE  B.BBSNO       = #bbsNo#
-		AND    B.SUBJECTCODE = C.CODE
+	<select id="read" parameterType="shtBoard" resultType="shtBoard">
+	SELECT BOARD.SUBJECTCODE subjectCode
+	     , MENU.CODENAME     subject
+	     , BOARD.TRADENO     tradeNo
+	     , BOARD.TRADESTATUS tradeStatusCode
+	     , BOARD.TITLE       title
+	     , BOARD.CONTENT     content
+	     , BOARD.WRITEREMAIL email
+	     , DECODE(TO_CHAR(CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	            , TO_CHAR(CREATEDATE,'hh24:mi')
+	            , TO_CHAR(CREATEDATE,'yyyy-mm-dd')) createDate
+	FROM   SHTBOARD BOARD, CODE_MENULIST MENU
+	WHERE BOARD.SUBJECTCODE = #{subjectCode}
+	AND   BOARD.TRADENO     = #{tradeNo}
+	AND   BOARD.SUBJECTCODE = MENU.SUBJECTCODE
 	</select>
 
-	<update id="update" parameterClass="jhwBoardVO">
-		UPDATE TBL_BOARD
-		SET    SUBJECTCODE = DECODE(#subjectCode#, 0, SUBJECTCODE, #subjectCode#)
-			 , TITLE       = NVL2(#title#, #title#, TITLE)
-		     , CONTENT     = NVL2(#content#, #content#, CONTENT)		     
-		WHERE  BBSNO       = #bbsNo#
+	<update id="update" parameterType="shtBoard">
+	UPDATE SHTBOARD
+	<set>
+		<if test="subjectCode != 0">
+			SUBJECTCODE = #{subjectCode},
+		</if>
+		<if test="tradeStatusCode != 0">
+			TRADESTATUS = #{tradeStatusCode},
+		</if>
+		<if test="title != null">
+			TITLE = #{title},
+		</if>
+		<if test="content != null">
+			CONTENT = #{content}
+		</if>
+	</set>
+	WHERE SUBJECTCODE = #{subjectCode}
+	AND   TRADENO     = #{tradeNo}
 	</update>
-	
-	<update id="updateReadCnt" parameterClass="Integer">
-		UPDATE TBL_BOARD
-		SET    READCNT = READCNT + 1	     
-		WHERE  BBSNO   = #bbsNo#
-	</update>
-	
-	<delete id="delete" parameterClass="Integer">
-		DELETE FROM TBL_BOARD
-		WHERE  BBSNO = #bbsNo#
+
+	<delete id="delete" parameterType="shtBoard">
+	DELETE FROM SHTBOARD
+	WHERE SUBJECTCODE = #{subjectCode}
+	AND   TRADENO     = #{tradeNo}
 	</delete>
-<!--
-향후 REPLY 추가하면 LIST에 REPLYCNT 추가해야함
-, B.TITLE title 아래에 
-, B.GET_REPLYCNT(bbsNo) replyCnt 추가
--->
-	<select id="list" parameterClass="cri" resultClass="jhwBoardListVO">
-	<![CDATA[
-		SELECT B.SUBJECTCODE subjectCode
-		     , C.CODENAME    subjectName
-		     , B.BBSNO       bbsNo
-		     , B.TITLE       title
-		     , B.WRITER      writer
-		     , B.CREATEDATE  createDate		     			
-		     , B.READCNT     readCnt
-		     , RECOMMENDCNT  recommendCnt
-		     , B.TOTALCNT    totalCnt
-		     , #pageNo#      pageNo
-		     , 2             replyCnt
-		FROM (
-		        SELECT /*+INDEX_DESC(TBL_BOARD TBL_BOARD_PK_BBSNO)*/ 
-		               SUBJECTCODE
-		             , BBSNO
-		             , TITLE
-		             , WRITER
-		             , CREATEDATE
-		             , READCNT
-		             , RECOMMENDCNT
-		             , COUNT(*)OVER() TOTALCNT
-		        FROM  TBL_BOARD
-		        WHERE BBSNO       > 0
-		        AND   SUBJECTCODE = #subjectCode#
-		        $sql$
-		     ) B, TBL_CODE C
-		WHERE ROWNUM       >  (#pageNo# - 1)*10
-		AND   ROWNUM       <= (#pageNo# * 10)
-		AND   B.SUBJECTCODE = C.CODE
-		
-		ORDER BY BBSNO DESC
-	]]>
+	
+ 	<!-- list에 검색조건 추가하는 부분을 넣어야 함 -->
+	<select id="list" parameterType="commonPage" resultType="commonList">	
+	SELECT BOARD.TRADENO      writeNo
+	     , CODE.CODENAME      writeStatus
+	     , BOARD.TITLE        title
+	     , (SELECT COUNT(REPNO)
+	        FROM   SHTREPLY
+	        WHERE  TRADENO = BOARD.TRADENO) replyCnt
+	     , BOARD.WRITEREMAIL  writer
+	     , DECODE(TO_CHAR(BOARD.CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	     		, TO_CHAR(BOARD.CREATEDATE,'hh24:mi')
+	            , TO_CHAR(BOARD.CREATEDATE,'yyyy-mm-dd')) writeDate
+	FROM( SELECT /*+ INDEX_DESC(SHTBOARD SHTBOARD_PK_COMPOUND)*/
+	             TRADENO
+	           , TRADESTATUS
+	           , TITLE
+	           , WRITEREMAIL
+	           , CREATEDATE
+	           , ROWNUM RN
+	      FROM   SHTBOARD
+	      WHERE  SUBJECTCODE = #{pageSubjectCode}
+	      <if test="searchKeyword != null">
+		      <if test="searchType == 0">
+		      AND TITLE LIKE '%'||#{searchKeyword}||'%'
+		      </if>
+		      <if test="searchType == 1">
+		      AND TITLE   LIKE '%'||#{searchKeyword}||'%'
+		      OR  CONTENT LIKE '%'||#{searchKeyword}||'%'
+		      </if>
+		      <if test="searchType == 2">
+		      AND WRITEREMAIL LIKE '%'||#{searchKeyword}||'%'
+		      </if>
+	      </if>
+	      <![CDATA[
+	      AND    ROWNUM <= #{selectCnt} * #{pageNo} ) BOARD, CODE_MANAGEMENT CODE
+	      ]]>
+	WHERE RN >  #{selectCnt} * (#{pageNo} - 1)
+	AND   CODE.GROUPCODE = 1
+	AND   BOARD.TRADESTATUS = CODE.SUBCODE	
 	</select>
-		
-</sqlMap>
+</mapper>

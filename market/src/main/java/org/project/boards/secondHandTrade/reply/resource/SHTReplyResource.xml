@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SHTReply">
+	<insert id="write" parameterType="shtReply" >
+		INSERT INTO 
+			SHTREPLY(TRADENO
+			       , REPNO
+			       , CONTENT
+			       , REPLYWRITER) 
+             VALUES (#{tradeNo}
+                   , SHTREPLY_REPNO_SEQ.NEXTVAL
+                   , #{content}
+                   , #{email})
+	</insert>
+	
+	<select id="read" parameterType="shtReply" resultType="shtReply">
+		SELECT TRADENO     tradeNo
+		     , REPNO       repNo
+		     , CONTENT     content
+		     , REPLYWRITER email
+		     , DECODE(TO_CHAR(CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	     		    , TO_CHAR(CREATEDATE,'hh24:mi')
+	                , TO_CHAR(CREATEDATE,'yyyy-mm-dd')) createDate
+		FROM   SHTREPLY
+		WHERE  TRADENO = #{tradeNo}			
+		AND    REPNO   = #{repNo}
+	</select>
+	
+	<select id="readCurrentlyWrite" parameterType="shtReply" resultType="shtReply">
+	SELECT /*+ INDEX_DESC(SHTREPLY SHTREPLY_PK_COMPOUND)*/
+	       TRADENO     tradeNo
+	     , REPNO       repNo
+	     , CONTENT     content
+	     , REPLYWRITER email
+	     , DECODE(TO_CHAR(CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	            , TO_CHAR(CREATEDATE,'hh24:mi')
+	            , TO_CHAR(CREATEDATE,'yyyy-mm-dd')) createDate
+	FROM   SHTREPLY
+	WHERE  TRADENO     = #{tradeNo}
+	AND    REPLYWRITER = #{email}
+	AND    ROWNUM      = 1
+	</select>
+	
+	<update id="update" parameterType="shtReply">
+		<if test="tradeNo != null and repNo != null and content != null">
+		UPDATE SHTREPLY
+		SET    CONTENT    = #{content}
+		     , CREATEDATE = SYSDATE
+		WHERE  TRADENO = #{tradeNo}
+		AND    REPNO   = #{repNo}
+		</if>
+	</update>
+	
+	<delete id="delete" parameterType="shtReply">
+		DELETE FROM SHTREPLY 
+		WHERE  TRADENO = #{tradeNo}			
+		AND    REPNO   = #{repNo}
+	</delete>
+	
+	<delete id="deleteLink" parameterType="shtReply">
+		DELETE FROM SHTREPLY
+		WHERE  TRADENO = #{tradeNo}
+	</delete>
+ 	
+ 	<!-- after all reply list -->
+ 	<select id="list" parameterType="Integer" resultType="shtReply">
+ 	SELECT /*+ INDEX_ASC(SHTREPLY SHTREPLY_PK_COMPOUND)*/
+	       TRADENO     tradeNo
+	     , REPNO       repNo
+	     , CONTENT     content
+	     , REPLYWRITER email
+	     , DECODE(TO_CHAR(CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	            , TO_CHAR(CREATEDATE,'hh24:mi')
+	            , TO_CHAR(CREATEDATE,'yyyy-mm-dd')) createDate
+	FROM   SHTREPLY
+	WHERE  TRADENO = #{value}
+	</select>
+	<!-- before paging list
+ 	<select id="list" parameterType="commonReplyPage" resultType="shtReply">
+		SELECT REPLY.TRADENO     tradeNo
+		     , REPLY.REPNO       repNo
+		     , REPLY.CONTENT     content
+		     , REPLY.REPLYWRITER email
+		     , DECODE(TO_CHAR(REPLY.CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	     		    , TO_CHAR(REPLY.CREATEDATE,'hh24:mi')
+	                , TO_CHAR(REPLY.CREATEDATE,'yyyy-mm-dd')) createDate
+		FROM ( SELECT /*+ INDEX_ASC(SHTREPLY SHTREPLY_PK_COMPOUND)*/
+		              TRADENO
+		            , REPNO
+		            , CONTENT
+		            , REPLYWRITER
+		            , CREATEDATE
+		            , ROWNUM RN
+		       FROM   SHTREPLY
+		       WHERE  TRADENO = #{replyTradeNo}
+		       <![CDATA[
+		       AND    ROWNUM <= #{replySelectCnt} * #{replyPageNo} ) REPLY
+		       ]]>
+		WHERE RN >  #{replySelectCnt} * (#{replyPageNo} - 1)
+	</select>
+	-->
+</mapper>

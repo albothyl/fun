@@ -3,19 +3,30 @@
 
 <configuration>
     <settings>
-        <setting name="cacheEnabled" value="false" />
-		<setting name="useGeneratedKeys" value="true" />
+        <setting name="cacheEnabled"        value="false" />
+		<setting name="useGeneratedKeys"    value="true" />
 		<setting name="defaultExecutorType" value="REUSE" />
     </settings>
     
     <typeAliases>
-        <typeAlias alias="member"  type="org.project.member.domain.Member"></typeAlias>
+        <typeAlias alias="member"      type="org.project.member.domain.Member"></typeAlias>
         <typeAlias alias="certificate" type="org.project.member.certification.domain.Certification"></typeAlias>
-        <typeAlias alias="page"    type="org.project.common.vo.PageVO"></typeAlias>
+        <typeAlias alias="shtBoard"    type="org.project.boards.secondHandTrade.board.domain.SHTBoard"></typeAlias>
+        <typeAlias alias="shtReply"    type="org.project.boards.secondHandTrade.reply.domain.SHTReply"></typeAlias>
+        <typeAlias alias="commonPage"  type="org.project.common.vo.PageVO"></typeAlias>
+        <typeAlias alias="commonList"  type="org.project.common.vo.ListVO"></typeAlias>
+        <typeAlias alias="code"        type="org.project.common.module.code.vo.CodeVO"></typeAlias>
+        <typeAlias alias="file"        type="org.project.common.module.file.vo.FileVO"></typeAlias>
+        <typeAlias alias="swindle"     type="org.project.swindle.domain.Swindle"></typeAlias>
     </typeAliases>
     
     <mappers>
         <mapper resource="org/project/member/resource/Member.xml" />
         <mapper resource="org/project/member/certification/resource/Certification.xml" />
+        <mapper resource="org/project/boards/secondHandTrade/board/resource/SHTBoardResource.xml" />
+        <mapper resource="org/project/boards/secondHandTrade/reply/resource/SHTReplyResource.xml" />
+        <mapper resource="org/project/common/module/code/resource/CodeResource.xml" />
+        <mapper resource="org/project/common/module/file/resource/FileUplaodResource.xml" />
+        <mapper resource="org/project/swindle/resource/SwindleResource.xml" />
     </mappers>
 </configuration>

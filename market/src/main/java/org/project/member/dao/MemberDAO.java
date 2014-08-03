@@ -18,5 +18,5 @@ public interface MemberDAO {
 	//delete
 	public void secede(String email);
 	//list
-	public List<Member> list(PageVO pageVO);
+	public List<Member> list(PageVO<Object> pageVO);
 }

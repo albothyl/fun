@@ -1,3 +1,4 @@
+/*전체 레이아웃 css*/
 #all {
 	position: relative;
 	width: 1274px;
@@ -48,7 +49,7 @@
 	*/ 
 }
 #main {
-	background-color: gray;
+	background-color: silver;
 	float: left;
 	width: 1107px;
 	height: auto;
@@ -57,10 +58,165 @@
 	overflow: scroll;
 	*/ 
 }
-
 #bottom {
 	background-color: orange;
 	width: 1274px;
 	height: 50px;
 	clear: both;
+}
+
+/*게시판 CSS*/
+#boardListTable {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+}
+#boardListTable tr, #boardListTable td {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+.boardListTitle {
+	width: 674px;	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis; 
+	cursor:pointer;
+}
+#status {
+	width: 95px;
+}
+.boardWriter {
+	width: 228px; 
+}
+#date {
+	width: 110px;
+}
+#writeBtn {
+	text-align: right;
+	margin-right: 78px;
+}
+#searchForm {
+	text-align: center;
+}
+
+/*게시글 작성 CSS*/
+#boardWriteTable {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+}
+#boardWriteTable tr, #boardWriteTable td {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+#boardWriteTitle {
+	width: 100%;
+}
+#ir1 {
+	width: 100%;
+	background-color: white;
+}
+
+
+/*게시글 보기 CSS*/
+#boardReadTable {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+}
+#boardReadTable tr, #boardReadTable td {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+#boardReadTitle {
+	width: 700px;	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#subject {
+	text-align: right;
+	width: 500px
+}
+#boardWriter {
+	text-align: right;
+	width: 250px
+}
+#date {
+	text-align: right;
+	width: 200px
+}
+#readButton {
+	text-align: right;
+}
+
+/*reply css*/
+#replyScope {
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;	
+	text-align: center;
+	clear: both;
+}
+#replyWrite {
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	clear: both;
+}
+#replyContent {
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;	
+	width: 500px;
+	white-space: normal;
+}
+#replyWriteButton {
+	vertical-align: top;
+	height: 46px;
+	
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+}
+#replyButton {
+	
+}
+#replyList {
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	clear: both;
+	width: 600px;
+	margin-left: 245px;
+}
+.replyListInfo{
+	float: left;
+	width: 250px;
+	text-align: left;
+}
+.replyListButton{
+	float: right;
+	width: 250px;
+	text-align: right;
+}
+.replyListContent{
+	clear: both;
+	width: 560px;
+	text-align: left;
+}
+#replyUpdateContent {
+	border-collapse: collapse;
+	border-top: 1px solid black;
+	border-left: 1px solid black;	
+	width: 500px;
+	white-space: normal;
+}
+
+/* Swindle */
+#searchKeyword {
+	width: 500px;
 }

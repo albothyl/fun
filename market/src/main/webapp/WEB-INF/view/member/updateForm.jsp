@@ -20,7 +20,7 @@
 	<script src="/include/javaScript/user/memberValidationCheck.js"></script>
 
 	<script>
-	$(document).ready(function()
+	$().ready(function()
 	{
 		$("#updateSubmit").click(function(){
 			if(updateFormValidationCheck()){
@@ -46,7 +46,7 @@
 		</div> <!-- end all -->
 		
 		<div id="middle">
-			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			<%@ include file='/include/basicLayout/leftSideMenuBar.jsp'%>
 			
 			<div id="main">
 				<h1>updateForm</h1>

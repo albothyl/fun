@@ -3,36 +3,55 @@ package org.project.boards.secondHandTrade.board.domain;
 import org.project.common.vo.ResultVO;
 
 public class SHTBoard extends ResultVO {
-/*	
-	protected int    bbsNo;
-	protected int    subjectCode;
-	protected String subjectName;
-	protected String title;
-	protected String content;
-	protected String writer;
-	protected String createDate;
-	protected int    readCnt;
-	protected int    recommendCnt;
-	protected int    replyCnt;
-	
-	
-	public int getBbsNo() {
-		return bbsNo;
+	private int    subjectCode;
+	private String subject;
+	private int    tradeNo;
+	private int    tradeStatusCode;
+	private String tradeStatus;
+	private String title;
+	private String content;
+	private String email;
+	private String createDate;
+		
+	public SHTBoard() {
+		super();
 	}
-	public void setBbsNo(int bbsNo) {
-		this.bbsNo = bbsNo;
+
+	public SHTBoard(int subjectCode, int tradeNo) {
+		super();
+		this.subjectCode = subjectCode;
+		this.tradeNo = tradeNo;
 	}
+	
 	public int getSubjectCode() {
 		return subjectCode;
 	}
 	public void setSubjectCode(int subjectCode) {
 		this.subjectCode = subjectCode;
 	}
-	public String getSubjectName() {
-		return subjectName;
+	public String getSubject() {
+		return subject;
 	}
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public int getTradeNo() {
+		return tradeNo;
+	}
+	public void setTradeNo(int tradeNo) {
+		this.tradeNo = tradeNo;
+	}
+	public int getTradeStatusCode() {
+		return tradeStatusCode;
+	}
+	public void setTradeStatusCode(int tradeStatusCode) {
+		this.tradeStatusCode = tradeStatusCode;
+	}
+	public String getTradeStatus() {
+		return tradeStatus;
+	}
+	public void setTradeStatus(String tradeStatus) {
+		this.tradeStatus = tradeStatus;
 	}
 	public String getTitle() {
 		return title;
@@ -46,11 +65,12 @@ public class SHTBoard extends ResultVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getWriter() {
-		return writer;
+	
+	public String getEmail() {
+		return email;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getCreateDate() {
 		return createDate;
@@ -58,34 +78,14 @@ public class SHTBoard extends ResultVO {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	public int getReadCnt() {
-		return readCnt;
-	}
-	public void setReadCnt(int readCnt) {
-		this.readCnt = readCnt;
-	}
-	public int getRecommendCnt() {
-		return recommendCnt;
-	}
-	public void setRecommendCnt(int recommendCnt) {
-		this.recommendCnt = recommendCnt;
-	}
-	public int getReplyCnt() {
-		return replyCnt;
-	}
-	public void setReplyCnt(int replyCnt) {
-		this.replyCnt = replyCnt;
-	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "jhwBoardVO [bbsNo=" + bbsNo + ", subjectCode=" + subjectCode
-				+ ", subjectName=" + subjectName + ", title=" + title
-				+ ", content=" + content + ", writer=" + writer
-				+ ", createDate=" + createDate + ", readCnt=" + readCnt
-				+ ", recommendCnt=" + recommendCnt + ", replyCnt=" + replyCnt
-				+ ", errorCode=" + errorCode + ", errorMsg=" + errorMsg + "]";
+		return "SHTBoard [subjectCode=" + subjectCode + ", subject=" + subject
+				+ ", tradeNo=" + tradeNo + ", tradeStatusCode="
+				+ tradeStatusCode + ", tradeStatus=" + tradeStatus + ", title="
+				+ title + ", content=" + content + ", email=" + email
+				+ ", createDate=" + createDate + "]";
 	}
-*/
+	
 }

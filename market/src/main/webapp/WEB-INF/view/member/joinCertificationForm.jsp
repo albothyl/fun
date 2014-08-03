@@ -20,7 +20,7 @@
 	<script src="/include/javaScript/user/memberValidationCheck.js"></script>
 	
 	<script>
-	$(document).ready(function()
+	$().ready(function()
 	{
 		$("#certifyKeySubmit").click(function(){
 			var randomKey = $("#randomKey").val();
@@ -44,7 +44,7 @@
 		</div> <!-- end all -->
 		
 		<div id="middle">
-			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			<%@ include file='/include/basicLayout/leftSideMenuBar.jsp'%>
 			
 			<div id="main">
 				<h1>certifyForm</h1>

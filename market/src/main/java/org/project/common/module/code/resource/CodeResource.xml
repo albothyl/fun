@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<mapper namespace="Code">
+	
+	<select id="commonCodelist" parameterType="int" resultType="code">
+		SELECT SUBCODE  key2
+		     , CODENAME value
+		FROM   CODE_MANAGEMENT
+		WHERE  GROUPCODE = #{value}
+		AND    SUBCODE != 9999
+	</select>
+	
+	<select id="menuCodelistAll" parameterType="int" resultType="code">
+		SELECT /*+ INDEX_ASC(CODE_MENULIST CODE_MENULIST_PK_COMPOUND)*/
+		       CATEGORYCODE  key1
+		     , SUBJECTCODE   key2
+		     , CODENAME      VALUE
+		     , TO_CHAR(UPDATEDATE,'YYYYMMDDhh24miss') updateDate
+		FROM   CODE_MENULIST
+	</select>
+	
+</mapper>

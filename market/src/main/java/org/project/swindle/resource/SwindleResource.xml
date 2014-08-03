@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Swindle">
+	<insert id="write" parameterType="swindle">
+		INSERT INTO 
+			SWINDLE(SWINDLENO
+			      , BANKNAME
+				  , ACCOUNT
+		          , ACCOUNTOWNER
+		          , PHONENUMBER
+		          , SWINDLEPRICE
+		          , SWINDLEDATE
+		          , SWINDLELOCATION
+		          , SWINDLER
+		          , SWINDLEITEM
+		          , TITLE
+		          , CONTENT
+		          , WRITER)
+		    VALUES( SWINDLE_SWINDLENO_SEQ.NEXTVAL
+		          , #{bankName}
+			      , #{account}
+			      , #{accountOwner}
+			      , #{phoneNumber}			     
+			      , #{swindlePrice}
+			      , #{swindleDate}
+			      , #{swindleLocation}
+			      , #{swindler}
+			      , #{swindleItem}
+			      , #{title}
+			      , #{content}
+			      , #{writer})
+	</insert>
+	
+	<select id="read" parameterType="swindle" resultType="swindle">
+	SELECT SWINDLENO
+	     , BANKNAME
+	     , ACCOUNT
+         , ACCOUNTOWNER
+         , PHONENUMBER
+         , SWINDLEDATE
+         , SWINDLELOCATION
+         , SWINDLER
+         , SWINDLEITEM
+         , SWINDLEPRICE
+         , TITLE
+         , CONTENT
+         , WRITER
+	     , DECODE(TO_CHAR(CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+	            , TO_CHAR(CREATEDATE,'hh24:mi')
+	            , TO_CHAR(CREATEDATE,'yyyy-mm-dd')) createDate
+	FROM  SWINDLE
+	WHERE SWINDLENO = #{swindleNo}
+	</select>
+
+	<update id="update" parameterType="swindle">
+	UPDATE SWINDLE
+	SET BANKNAME        = #{bankName},
+		ACCOUNT         = #{account},
+		ACCOUNTOWNER    = #{accountOwner},
+		PHONENUMBER     = #{phoneNumber},
+		SWINDLEDATE     = #{swindleDate},
+		SWINDLELOCATION = #{swindleLocation},
+		SWINDLER        = #{swindler},
+		SWINDLEITEM     = #{swindleItem},
+		SWINDLEPRICE    = #{swindlePrice},
+		TITLE           = #{title},
+		CONTENT         = #{content}
+	WHERE SWINDLENO = #{swindleNo}
+	</update>
+	<!--
+	UPDATE SWINDLE
+	<set>
+		<if test="bankName != null">
+			BANKNAME = #{bankName},
+		</if>
+		<if test="account != null">
+			ACCOUNT = #{account},
+		</if>
+		<if test="accountOwner != null">
+			ACCOUNTOWNER = #{accountOwner},
+		</if>
+		<if test="phoneNumber != null">
+			PHONENUMBER = #{phoneNumber}
+		</if>
+		<if test="swindleDate != null">
+			SWINDLEDATE = #{swindleDate}
+		</if>
+		<if test="swindleLocation != null">
+			SWINDLELOCATION = #{swindleLocation}
+		</if>
+		<if test="swindler != null">
+			SWINDLER = #{swindler}
+		</if>
+		<if test="swindleItem != null">
+			SWINDLEITEM = #{swindleItem}
+		</if>
+		<if test="swindlePrice != 0">
+			SWINDLEPRICE = #{swindlePrice}
+		</if>
+		<if test="title != null">
+			TITLE = #{title}
+		</if>
+		<if test="content != null">
+			CONTENT = #{content}
+		</if>
+	</set>
+	WHERE SWINDLENO = #{swindleNo} 
+	-->
+
+	<delete id="delete" parameterType="swindle">
+	DELETE FROM SWINDLE
+	WHERE  SWINDLENO = #{swindleNo}
+	</delete>
+	
+ 	<!-- list에 검색조건 추가하는 부분을 넣어야 함 -->
+	<select id="list" parameterType="commonPage" resultType="swindle">	
+	SELECT SWINDLENO
+     , BANKNAME        bankName
+     , ACCOUNT         account
+     , ACCOUNTOWNER    accountOwner
+     , PHONENUMBER     phoneNumber
+     , SWINDLEDATE     swindleDate
+     , SWINDLELOCATION swindleLocation
+     , SWINDLER        swindler
+     , SWINDLEITEM     swindleItem
+     , SWINDLEPRICE    swindlePrice
+     , TITLE           title
+     , CONTENT         content
+     , WRITER          writer
+     , DECODE(TO_CHAR(CREATEDATE,'yyyy-mm-dd'), TO_CHAR(SYSDATE,'yyyy-mm-dd')
+            , TO_CHAR(CREATEDATE,'hh24:mi')
+            , TO_CHAR(CREATEDATE,'yyyy-mm-dd')) createDate
+  FROM( SELECT 
+               <if test="searchType != 0">
+               	   /*+ INDEX_DESC(SWINDLE SWINDLE_ACCOUNT)*/
+               </if>
+               <if test="searchType != 1">
+               	   /*+ INDEX_DESC(SWINDLE SWINDLE_PHONENUMBER)*/
+               </if>
+               <if test="searchType != 2">
+               	   /*+ INDEX_DESC(SWINDLE SWINDLE_SWINDLER)*/
+               </if>
+               SWINDLENO
+             , BANKNAME
+             , ACCOUNT
+             , ACCOUNTOWNER
+             , PHONENUMBER
+             , SWINDLEPRICE
+             , SWINDLEDATE
+             , SWINDLELOCATION
+             , SWINDLER
+             , SWINDLEITEM
+             , TITLE
+             , CONTENT
+             , WRITER
+             , CREATEDATE
+             , ROWNUM RN
+        FROM   SWINDLE
+        WHERE  SWINDLENO = SWINDLENO
+        <if test="searchKeyword != null">
+            <if test="searchType == 0">
+            	AND ACCOUNT LIKE '%'||#{searchKeyword}||'%'
+            </if>
+            <if test="searchType == 1">
+            	AND PHONENUMBER LIKE '%'||#{searchKeyword}||'%'
+            </if>
+            <if test="searchType == 2">
+            	AND SWINDLER LIKE '%'||#{searchKeyword}||'%'
+            </if>
+        </if>
+        <![CDATA[
+        AND ROWNUM <= #{selectCnt} *  #{pageNo}
+        AND ROWNUM >  #{selectCnt} * (#{pageNo} - 1)
+        ]]>)
+	</select>
+</mapper>

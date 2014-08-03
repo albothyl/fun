@@ -12,15 +12,39 @@ See here for more details: http://gordondickens.com/wordpress/2013/03/27/sawing-
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level %logger{0} - %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}] - [%C{0}.%M] :: %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    
+    <appender name="dailyRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>C:/Users/dataroad/git/fun/market/src/main/resources/log/currentLog.log</file>
+        
+        <!-- Support multiple-JVM writing to the same log file 
+    	<prudent>true</prudent> -->
+        
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+             <maxHistory>30</maxHistory>
+        </rollingPolicy> 
+    	
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}] [%C:%M.%L] - %msg%n</pattern>
         </encoder>
     </appender>
 
 	<!--<logger name="org.hibernate" level="debug"/> -->
-   <!-- Uncomment and add your logger here:
+    <!-- Uncomment and add your logger here:
     <logger name="org.springframework.samples.service.service" level="debug"/> -->
-         
+ <!--         
+    <root level="debug">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </root>
+-->   
     <root level="info">
         <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
     </root>
+
 </configuration>

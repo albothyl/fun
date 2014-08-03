@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- **은 그 이하 모든 경로를 의미함 
@@ -13,17 +21,19 @@
     </context:component-scan>
      
     <mvc:annotation-driven />
-    <!--  
-    <mvc:annotation-driven>
-		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-				<property name="supportedMediaTypes" value="application/json" />
-			</bean>           
-		</mvc:message-converters>
-	</mvc:annotation-driven>
-	 -->
+    
+    <!-- aop -->
+    <aop:aspectj-autoproxy/>   
+    
 	<bean id="localValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
     
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/board/**"/>
+			<bean class="org.project.common.intercepter.LoginCheck"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <property name="prefix" value="/WEB-INF/view/"/>
 	        <property name="suffix" value=".jsp"/>

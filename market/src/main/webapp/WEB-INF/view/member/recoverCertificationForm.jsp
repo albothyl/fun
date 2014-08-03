@@ -22,7 +22,7 @@
 	<script>
 	var certificationCheck = false;
 	
-	$(document).ready(function()
+	$().ready(function()
 	{
 		$("#certificationInfo").text("email을 입력하시고 인증키 요청버튼을 눌러주시기 바랍니다.");
 		
@@ -91,7 +91,7 @@
 		</div> <!-- end all -->
 		
 		<div id="middle">
-			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			<%@ include file='/include/basicLayout/leftSideMenuBar.jsp'%>
 			
 			<div id="main">
 				<h1>recoverForm</h1>

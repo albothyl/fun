@@ -33,7 +33,7 @@ public class MemberDAOTest {
 	private Member searchedMember;
 	private Member updateMember;
 	
-	private PageVO pageVO;
+	private PageVO<Object> pageVO;
 	
 	@Before
 	public void setUp() throws Exception {		
@@ -45,9 +45,9 @@ public class MemberDAOTest {
 		updateMember = new Member("jjhwqqq@naver.com", "2222", "update", Grade.ASSOCIATE);
 		updateMember.setGrade(updateMember.getTempGrade().nextGrade().intValue());
 		
-		pageVO = new PageVO();
+		pageVO = new PageVO<Object>();
 		pageVO.setPageNo(1);
-		pageVO.setViewCnt(5);
+		pageVO.setSelectCnt(5);
 	}
 
 	@Test

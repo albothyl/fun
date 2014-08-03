@@ -1,149 +1,128 @@
 package org.project.boards.secondHandTrade.board.controller;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.project.boards.secondHandTrade.board.domain.SHTBoard;
+import org.project.boards.secondHandTrade.board.service.SHTBoardService;
+import org.project.boards.secondHandTrade.reply.service.SHTReplyService;
+import org.project.common.module.code.service.CodeService;
+import org.project.common.module.code.vo.CodeVO;
+import org.project.common.system.customAnnotation.LoginRequired;
+import org.project.common.system.customAnnotation.Ownership;
+import org.project.common.system.globalCode.defineCode;
+import org.project.common.vo.ListVO;
+import org.project.common.vo.PageVO;
+import org.project.member.controller.MemberController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("board/SHTBoard")
 public class SHTBoardController {
-/*	
-	@Resource(name="jhwService")
-	jhwService boardService;
 	
-	@Resource(name="fileInfoService")
-	fileUploadService fileUploadService;
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	public ModelAndView mav = new ModelAndView();
+	@Resource(name="shtBoardService")
+	SHTBoardService shtBoardService;
 	
-	@RequestMapping(value="wrieteForm", method=RequestMethod.GET)
-	public ModelAndView writeForm(String subjectCode){
-		
-		System.out.println("jhwController  :: writeForm");
-		
-		mav.addObject("subjectCode", subjectCode);
-		mav.setViewName("/jhwBoard/jhwWriteForm");
-		
-		return mav;
-	}
+	@Resource(name="SHTReplyService")
+	SHTReplyService shtReplyService;
 	
-	@RequestMapping(value="writeAction", method=RequestMethod.POST)
-	public ModelAndView writeAction(jhwBoardVO vo){
-		
-		System.out.println("jhwController   :: writeAction");
-		
-		int returnCode = boardService.write(vo);
-		
-		if(returnCode != defineCode.SQLCODE_GOOD)
-		{
-			mav.addObject("returnCode", returnCode);
-			mav.setViewName("/jhwBoard/jhwError");
-			return mav;
-		}			
-		mav.setViewName("/jhwBoard/jhwWriteAction");
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="readAction", method=RequestMethod.POST)
-	public ModelAndView readAction(int bbsNo, String subjectCode){
-		
-		System.out.println("jhwController   :: readAction");
-		
-		jhwBoardVO vo = boardService.read(bbsNo);
-		
-		if(vo.getError_code() != defineCode.SQLCODE_GOOD)
-		{
-			mav.addObject("subjectCode", subjectCode);
-			mav.addObject("returnCode", vo.getError_code());
-			mav.setViewName("/jhwBoard/jhwError");
-			return mav;
-		}
-		mav.addObject("jhwBoardVO", vo);
-		mav.setViewName("/jhwBoard/jhwRead");
-		
-		return mav;		
-	}
-	
-	@RequestMapping(value="updateForm", method=RequestMethod.GET)
-	public ModelAndView updateForm(String subjectCode, Model model){
-		
-		System.out.println("jhwController   :: updateForm");
-		System.out.println(model.toString());
+	@Resource(name="codeService")
+	CodeService codeService;
 
-		mav.setViewName("/jhwBoard/jhwUpdateForm");
+	// 메뉴리스트 처리
+	@ModelAttribute("menuList")
+	public List<CodeVO> menuList() throws Exception {		
+		return codeService.menuCodelistAll();
+	}
+
+	@LoginRequired
+	@RequestMapping(value="writeForm", method=RequestMethod.GET)	
+	public String writeForm(@ModelAttribute PageVO<ListVO> pageVO) {
+		logger.debug("input : " + pageVO.toString());
 		
-		return mav;	
+		return "/boards/secondHandTrade/board/writeForm";
+	}
+	@LoginRequired
+	@RequestMapping(value="write", method=RequestMethod.POST)	
+	public String write(@ModelAttribute SHTBoard shtBoard, @ModelAttribute PageVO<ListVO> pageVO, ModelMap model) {
+		logger.debug("input : " + shtBoard.toString());
+		logger.debug("input : " + pageVO.toString());
+		
+		shtBoardService.write(shtBoard);
+		
+		model.addAttribute("codeList", codeService.commonCodelist(defineCode.SHTBOARD_SEARCH_CODE));
+		model.addAttribute("pageVO", shtBoardService.list(pageVO));
+		return "/boards/secondHandTrade/board/list";
 	}
 	
-	@RequestMapping(value="updateAction", method=RequestMethod.POST)
-	public ModelAndView updateAction(jhwBoardVO vo){
+	@RequestMapping(value="read", method=RequestMethod.GET)	
+	public String read(@ModelAttribute SHTBoard shtBoard, @ModelAttribute PageVO<ListVO> pageVO, ModelMap model) {
+		logger.debug("input : " + shtBoard.toString());
+		logger.debug("input : " + pageVO.toString());
 		
-		System.out.println("jhwController   :: updateAction");
+		//Board
+		model.addAttribute("shtBoard", shtBoardService.read(shtBoard));
 		
-		int returnCode = boardService.update(vo);
+		//Reply				
+		model.addAttribute("replyList", shtReplyService.list(shtBoard.getTradeNo()));
 		
-		if(returnCode != defineCode.SQLCODE_GOOD)
-		{
-			mav.addObject("returnCode", returnCode);
-			mav.setViewName("/jhwBoard/jhwError");
-			return mav;
-		}
-		mav.setViewName("/jhwBoard/jhwUpdateAction");
-		
-		return mav;	
+		return "/boards/secondHandTrade/board/read";
 	}
 	
-	@RequestMapping(value="deleteAction", method=RequestMethod.POST)
-	public ModelAndView deleteAction(int bbsNo, String subjectCode){
-		
-		System.out.println("jhwController   :: deleteAction");
-		
-		int returnCode = boardService.delete(bbsNo);
-		
-		if(returnCode != defineCode.SQLCODE_GOOD)
-		{
-			mav.addObject("returnCode", returnCode);
-			mav.setViewName("/jhwBoard/jhwError");
-			return mav;
-		}
-		
-		mav.addObject("subjectCode", subjectCode);
-		mav.setViewName("/jhwBoard/jhwDeleteAction");
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="listAction", method=RequestMethod.GET)
-	public ModelAndView listAction(Criteria cri){
-		
-		System.out.println("jhwController   :: listAction");
-		
-		cri.chkPageNo(cri.getPageNo());
-		
-		List<jhwBoardVOList> list = null;
-		
-		try {
-			
-			list = boardService.list(cri);
-			
-		} catch (SQLException e) {
-			if(e.getErrorCode() != defineCode.SQLCODE_GOOD)
-			{
-				System.out.println("SQL ERROR CODE  :: " + e.getErrorCode());
-				System.out.println("SQL ERROR MSG   :: " + e.getMessage());
+	@LoginRequired
+	@Ownership
+	@RequestMapping(value="updateForm", method=RequestMethod.POST)	
+	public String updateForm(@ModelAttribute SHTBoard shtBoard, @ModelAttribute PageVO<ListVO> pageVO, ModelMap model) {		
+		logger.debug("input : " + shtBoard.toString());
+		logger.debug("input : " + pageVO.toString());
 				
-				mav.addObject("returnCode", defineCode.SQLCODE_ELSE);
-				mav.setViewName("/jhwBoard/jhwError");
-				return mav;
-			}			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-						
-		mav.addObject("jhwBoardVOList", list);
-		mav.setViewName("/jhwBoard/jhwList");
-		
-		return mav;
+		model.addAttribute("shtBoard", shtBoardService.read(shtBoard));
+		return "/boards/secondHandTrade/board/updateForm";
 	}
-*/
+	@LoginRequired
+	@Ownership
+	@RequestMapping(value="update", method=RequestMethod.POST)	
+	public String update(@ModelAttribute SHTBoard shtBoard, @ModelAttribute PageVO<ListVO> pageVO, ModelMap model) {
+		logger.debug("input : " + shtBoard.toString());
+		logger.debug("input : " + pageVO.toString());
+		
+		
+		shtBoardService.update(shtBoard);
+		model.addAttribute("shtBoard", shtBoardService.read(shtBoard));
+		return "/boards/secondHandTrade/board/read";
+	}
+		
+	@LoginRequired
+	@Ownership
+	@RequestMapping(value="delete", method=RequestMethod.POST)	
+	public String delete(@ModelAttribute SHTBoard shtBoard, @ModelAttribute PageVO<ListVO> pageVO, ModelMap model) {
+		logger.debug("input : " + shtBoard.toString());
+		logger.debug("input : " + pageVO.toString());
+		
+		shtBoardService.delete(shtBoard);
+		
+		model.addAttribute("codeList", codeService.commonCodelist(defineCode.SHTBOARD_SEARCH_CODE));
+		model.addAttribute("pageVO", shtBoardService.list(pageVO));
+		return "/boards/secondHandTrade/board/list";
+	}
+	
+	@RequestMapping(value="list", method=RequestMethod.GET)	
+	public String list(@ModelAttribute PageVO<ListVO> pageVO, ModelMap model) {
+		logger.debug("input : " + pageVO.toString());
+		
+		//model.addAttribute("menuList", codeService.menuCodelistAll());
+		model.addAttribute("codeList", codeService.commonCodelist(defineCode.SHTBOARD_SEARCH_CODE));
+		model.addAttribute("pageVO", shtBoardService.list(pageVO));
+		return "/boards/secondHandTrade/board/list";
+	}
+	
 }

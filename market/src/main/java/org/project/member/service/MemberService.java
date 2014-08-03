@@ -22,7 +22,7 @@ public interface MemberService {
 	//secede
 	public void secede(String email);
 	//list
-	public List<Member> list(PageVO pageVO);	
+	public List<Member> list(PageVO<Object> pageVO);	
 	//recover :: 로직 고민중
 	public Certification recoverPw(Certification certification);
 	//login

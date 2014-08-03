@@ -25,7 +25,7 @@
 	var oNavigator = jindo.$Agent().navigator();
 	
 	//마크업-공통 
-	var welBtnConfirm = $Element("btn_confirm");				//확인 버튼
+	var welBtnConfirm = $Element("btn_confirm");			//확인 버튼
 	var welBtnCancel= $Element("btn_cancel");				//취소 버튼
 	
 	//진도로 랩핑된 element
@@ -41,7 +41,7 @@
 				if(!!oNavigator.safari && oNavigator.version <= 5){
 					bSupportDragAndDropAPI = false;
 				}else{
-					bSupportDragAndDropAPI = true; //true :: html5면 드래드앤드랍 이미지 업로드 // false :: 단건 이미지 업로드
+					bSupportDragAndDropAPI = true;
 				}
 			} else {
 				bSupportDragAndDropAPI = false;
@@ -379,7 +379,7 @@
     function makeArrayFromString(sResString){
     	var	aTemp = [],
     		aSubTemp = [],
-    		htTemp = {},
+    		htTemp = {}
     		aResultleng = 0;
     	
  		try{
@@ -478,8 +478,8 @@
  	 */
  	function callFileUploader (){
  		oFileUploader = new jindo.FileUploader(jindo.$("uploadInputBox"),{
- 			sUrl  : 'http://127.0.0.1:8080/seImageUploadAction.do',	//샘플 URL입니다.
- 	        sCallback : '/nhn/SE2/photo_uploader/popup/callback.jsp',	//업로드 이후에 iframe이 redirect될 콜백페이지의 주소
+ 			sUrl  : location.href.replace(/\/[^\/]*$/, '') + '/file_uploader.php',	//샘플 URL입니다.
+ 	        sCallback : location.href.replace(/\/[^\/]*$/, '') + '/callback.html',	//업로드 이후에 iframe이 redirect될 콜백페이지의 주소
  	    	sFiletype : "*.jpg;*.png;*.bmp;*.gif",						//허용할 파일의 형식. ex) "*", "*.*", "*.jpg", 구분자(;)	
  	    	sMsgNotAllowedExt : 'JPG, GIF, PNG, BMP 확장자만 가능합니다',	//허용할 파일의 형식이 아닌경우에 띄워주는 경고창의 문구
  	    	bAutoUpload : false,									 	//파일이 선택됨과 동시에 자동으로 업로드를 수행할지 여부 (upload 메소드 수행)
@@ -633,7 +633,7 @@
  				clearTimeout(_timer);
  				_timer = undefined; 
  				t._onload(rq); 
- 			};
+ 			}
  			req.addEventListener("load", this._loadFunc, false);
  		}else{
  			if (typeof req.onload != "undefined") {

@@ -12,11 +12,11 @@
 	<meta name="keywords"    content=""/>
 	<meta name="author"      content=""/>
 	
-	<title>update</title>
+	<title>Swindle UpdateForm</title>
 	
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/user/userCSS.css">
-	<script src="/javaScript/jQuery/jquery-2.1.1.min.js"></script>
+	<link rel="stylesheet" href="/include/css/user/userCSS.css">
+	<script src="/include/javaScript/jQuery/jquery-2.1.1.min.js"></script>
 </head>
  
 <body>
@@ -27,7 +27,7 @@
 		</div> <!-- end all -->
 		
 		<div id="middle">
-			<%@ include file='/include/basicLayout/leftSideMeneBar.jsp'%>
+			<%@ include file='/include/basicLayout/leftSideMenuBar.jsp'%>
 			
 			<div id="main">
 				<!-- 실제 코딩부 -->

@@ -34,7 +34,7 @@ public class MemberServiceTest {
 	private Member searchedMember;
 	private Member updateMember;
 	
-	private PageVO pageVO;
+	private PageVO<Object> pageVO;
 	
 	private Certification certification;
 	
@@ -50,7 +50,7 @@ public class MemberServiceTest {
 		updateMember = new Member("jjhwqqq@naver.com", "2222", "update22", Grade.ASSOCIATE);
 		updateMember.setGrade(updateMember.getTempGrade().nextGrade().intValue());
 		
-		pageVO = new PageVO(1, 5);		
+		//pageVO = new PageVO(1, 5);		
 	}
 
 	@Test

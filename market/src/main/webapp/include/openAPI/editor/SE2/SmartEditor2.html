@@ -7,7 +7,7 @@
 </head>
 <body>
 <form action="sample.php" method="post">
-	<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:766px; height:412px; display:none; margin: auto; background-color: white;"></textarea>
+	<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:766px; height:412px; display:none;"></textarea>
 	<!--textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; height:412px; min-width:610px; display:none;"></textarea-->
 	<p>
 		<input type="button" onclick="pasteHTML();" value="본문에 내용 넣기" />
@@ -29,8 +29,8 @@ nhn.husky.EZCreator.createInIFrame({
 	sSkinURI: "SmartEditor2Skin.html",	
 	htParams : {
 		bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-		bUseVerticalResizer : false,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-		bUseModeChanger : false,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+		bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+		bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 		//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
 		fOnBeforeUnload : function(){
 			//alert("완료!");
@@ -44,7 +44,7 @@ nhn.husky.EZCreator.createInIFrame({
 });
 
 function pasteHTML() {
-	var sHTML = "<span style='color:#FF0000;'>이미지도 같은 방식으로 삽입합니다.<\/span>";
+	var sHTML = "<span style='color:#FF0000;'>이미지도 같은 방식으로 삽입합니다.</span>";
 	oEditors.getById["ir1"].exec("PASTE_HTML", [sHTML]);
 }
 

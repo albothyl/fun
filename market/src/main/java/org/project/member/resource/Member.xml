@@ -15,11 +15,9 @@
 	</select>
 	
 	<select id="existence" parameterType="String" resultType="Integer">
-	<![CDATA[
 	    SELECT COUNT(EMAIL)
 	    FROM   MEMBER
 		WHERE  EMAIL = #{value}
-	]]>
 	</select>
 	
 	<update id="update" parameterType="member">
@@ -36,7 +34,7 @@
 	</delete>
 	
 	<!-- 현제 list 작업중  -->
-	<select id="list" parameterType="page" resultType="member">
+	<select id="list" parameterType="commonPage" resultType="commonList">
 	    SELECT /*+INDEX_ASC(MEMBER_PK_EMAIL)*/
 		       EMAIL
 		     , PW

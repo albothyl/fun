@@ -12,17 +12,21 @@ import org.project.common.util.key.RandomKey;
 import org.project.common.vo.PageVO;
 import org.project.member.certification.domain.Certification;
 import org.project.member.certification.service.CertificationService;
+import org.project.member.controller.MemberController;
 import org.project.member.dao.MemberDAO;
 import org.project.member.domain.Grade;
 import org.project.member.domain.Login;
 import org.project.member.domain.Member;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
 	
-
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	@Resource(name="certificationService")
 	CertificationService certificationService;
 	
@@ -39,6 +43,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional
 	public Certification joining(Member member) {
+		logger.debug("input : " + member.toString());
+		
 		//password 암호화
 		member.setPw(sha.encryption(member.getPw(), Algorithm.SHA256.stringValue()));
 		memberDAO.join(member);
@@ -46,8 +52,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 	@Transactional
 	public Member joined(Certification certification) throws SQLException {
-		member = new Member();
+		logger.debug("input : " + certification.toString());
 		
+		member = new Member();		
 		if(certificationService.certified(certification)) {
 			member = memberDAO.search(certification.getEmail());
 			member.setTempGrade(Grade.valueOf(member.getGrade()).nextGrade());
@@ -63,30 +70,42 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	public Member search(String email) throws SQLException {
+		logger.debug("input email : " + email);
+		
 		return memberDAO.search(email);
 	}
 	
 	public boolean existence(String email) {
+		logger.debug("input email : " + email);
+		
 		return memberDAO.existence(email);
 	}
 
 	@Transactional
 	public void update(Member member) {
+		logger.debug("input : " + member.toString());
+		
 		member.setPw(passwordEncryption(member.getPw()));
 		memberDAO.update(member);
 	}
 
 	@Transactional
 	public void secede(String email) {
+		logger.debug("input email : " + email);
+		
 		memberDAO.secede(email);
 	}
 
-	public List<Member> list(PageVO pageVO) {
+	public List<Member> list(PageVO<Object> pageVO) {
+		logger.debug("input : " + pageVO.toString());
+		
 		return memberDAO.list(pageVO);
 	}
 	
 	@Transactional
 	public Certification recoverPw(Certification certification) {
+		logger.debug("input : " + certification.toString());
+		
 		if(certificationService.certified(certification)) {
 			Member member = null;
 			try {
@@ -106,8 +125,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 	@Transactional
 	public Member recovered(Certification certification) throws SQLException {
-		member = new Member();
+		logger.debug("input : " + certification.toString());
 		
+		member = new Member();		
 		if(certificationService.certified(certification)) {
 			member = memberDAO.search(certification.getEmail());
 		}
@@ -115,15 +135,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	public Login loginProcess(Login login, Login sessionLogin) {
-		System.out.println("service :: loginProcess");
 		
 		//세션에 LOGIN정보가 없으면 로그인 시도
 		if(sessionLogin == null) {
-			System.out.println("login    :: " + login.toString());
+			logger.debug("sessionLogin == null");
 			return tryLogin(login);
 		//세션에 LOGIN정보가 있으면 로그인 정보 검증 처리
 		}else{
-			System.out.println("sessionLogin    :: " + sessionLogin.toString());
+			logger.debug("input : " + login.toString());
+			logger.debug("input : " + login.toString());
+			
+			//logger.debug("sessionLogin    :: " + sessionLogin.toString());
 			//거부상태 체크 로직
 			if(!sessionLogin.isLoginYN()) {
 				//로그인 실패상태 + 거부상태이면
@@ -150,16 +172,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	public Login tryLogin(Login login) {
-		System.out.println("service :: tryLogin");
+		logger.debug("input : " + login.toString());
 		
 		try{
-			//로그인 정상처리
-			System.out.println("input pw : " + passwordEncryption(login.getPw()));
-			System.out.println("DB    pw : " + memberDAO.search(login.getEmail()).getPw());
+			logger.debug("input pw : " + passwordEncryption(login.getPw()));
+			logger.debug("DB    pw : " + memberDAO.search(login.getEmail()).getPw());
+			
+			//로그인 정상처리			
 			if(passwordEncryption(login.getPw()).equals(memberDAO.search(login.getEmail()).getPw())){
 				login.loginOk();
 			//로그인 실패처리
 			}else{
+				logger.debug("input pw : " + passwordEncryption(login.getPw()));
+				logger.debug("DB    pw : " + memberDAO.search(login.getEmail()).getPw());
 				login.loginFail();
 			}
 		}catch(Exception e){
@@ -168,7 +193,9 @@ public class MemberServiceImpl implements MemberService {
 		return login;
 	}
 	
-	private String passwordEncryption(String password) {		
+	private String passwordEncryption(String password) {
+		logger.debug("input password : " + password);
+		
 		return sha.encryption(password, Algorithm.SHA256.stringValue());
 	}
 		

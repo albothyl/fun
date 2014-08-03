@@ -6,12 +6,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.project.common.module.code.service.CodeService;
+import org.project.common.system.globalCode.defineCode;
 import org.project.common.vo.ResultVO;
 import org.project.member.certification.domain.Certification;
 import org.project.member.certification.service.CertificationService;
 import org.project.member.domain.Login;
 import org.project.member.domain.Member;
 import org.project.member.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,11 +30,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("member")
 public class MemberController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	@Resource(name="memberService")
 	MemberService memberService;
 	
 	@Resource(name="certificationService")
 	CertificationService certificationService;
+	
+	@Resource(name="codeService")
+	CodeService codeService;
 	
 	/*
 	 * 추가 작업사항
@@ -58,15 +67,15 @@ public class MemberController {
 	 * 회원가입 =========================	
 	 */
 	@RequestMapping(value="joinForm", method=RequestMethod.GET)	
-	public String springJoinForm(ModelMap model) {
-		System.out.println("spring :: joinForm");
+	public String joinForm(ModelMap model) {
 		model.addAttribute(new Member());
 		return "/member/joinForm";
 	}
 	
 	@RequestMapping(value="joinCertify", method=RequestMethod.POST)
 	public String joinCertify(@ModelAttribute @Valid Member member, BindingResult result, Model model) {
-		System.out.println("spring :: joinCertify");		
+		logger.debug("input : " + member.toString());
+		
 		if(result.hasErrors()) return "/member/joinForm";		
 		Certification certification = new Certification();
 		certification.setEmail(memberService.joining(member).getEmail());
@@ -75,8 +84,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="joinCertified", method=RequestMethod.POST)	
-	public String springJoinAction(@ModelAttribute Certification certification, Model model) throws SQLException {
-		System.out.println("spring :: joinCertified");
+	public String joinAction(@ModelAttribute Certification certification, Model model) throws SQLException {
+		logger.debug("input : " + certification.toString());
+		
 		Member member = memberService.joined(certification); 
 		if(member.isResultYN()) {
 			model.addAttribute(new Login());
@@ -90,7 +100,8 @@ public class MemberController {
 	@RequestMapping(value="duplicationCheck", method=RequestMethod.GET)
 	@ResponseBody
 	public ResultVO duplicationCheckAction(@RequestParam String email) {
-		System.out.println("spring duplicationCheckAction : " + email);
+		logger.debug("input email : " + email);
+		
 		if(memberService.existence(email)){
 			return new ResultVO(true);
 		}else{
@@ -104,13 +115,13 @@ public class MemberController {
 	 */
 	@RequestMapping(value="memberManagementForm", method=RequestMethod.GET)	
 	public String memberManagementForm() {
-		System.out.println("spring :: ManagementForm");
 		return "/member/managementForm";
 	}
 	
 	@RequestMapping(value="memberUpdateForm", method=RequestMethod.GET)	
 	public String memberUpdateForm(HttpSession session, Model model) throws SQLException {
-		System.out.println("spring :: memberUpdateForm");		
+		logger.debug("input : " + model.toString());
+		
 		Login sessionLogin = (Login)session.getAttribute("login");		
 		Member member = memberService.search(sessionLogin.getEmail());
 		model.addAttribute(member);
@@ -119,14 +130,16 @@ public class MemberController {
 	
 	@RequestMapping(value="memberUpdate", method=RequestMethod.POST)	
 	public String memberUpdate(@ModelAttribute Member member) {
-		System.out.println("spring :: memberUpdate");
+		logger.debug("input : " + member.toString());
+		
 		memberService.update(member);
 		return "/member/managementForm";
 	}	
 	
 	@RequestMapping(value="memberSecede", method=RequestMethod.GET)	
 	public String memberSecede(HttpSession session) {
-		System.out.println("spring :: memberSecede");		
+		logger.debug("input : " + session.toString());
+		
 		Login sessionLogin = (Login)session.getAttribute("login");		
 		memberService.secede(sessionLogin.getEmail());		
 		session.removeAttribute("login");		
@@ -134,8 +147,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="recoverPwForm", method=RequestMethod.GET)	
-	public String recoverPw(Model model) {
-		System.out.println("spring :: ManagementForm");		
+	public String recoverPwForm(ModelMap model) {
+		logger.debug("input : " + model.toString());
+		
 		model.addAttribute(new Certification());
 		return "/member/recoverCertificationForm";
 	}
@@ -143,23 +157,23 @@ public class MemberController {
 	@RequestMapping(value="sendCertificationKey", method=RequestMethod.GET)
 	@ResponseBody
 	public ResultVO sendCertificationKey(@RequestParam String email) {
-		System.out.println("spring sendCertificationKey");
+		logger.debug("input : " + email);
+		
 		certificationService.certify(email);		
 		return new ResultVO(true);
 	}
 	
 	@RequestMapping(value="recoverPw", method=RequestMethod.POST)
 	public String recoverPw(@ModelAttribute Certification certification, Model model) {
-		System.out.println("spring sendCertificationKey");
+		logger.debug("input : " + certification.toString());	
 		
-		Certification certifyResult = memberService.recoverPw(certification); 
-		
+		Certification certifyResult = memberService.recoverPw(certification);
 		//email이 없을경우
-		if(certifyResult.getResultCode() == 2){
+		if(certifyResult.getResultCode() == defineCode.NOT_FOUND_EMAIL){
 			model.addAttribute(certifyResult);
 			return "/member/recoverCertificationForm";
 		//인증키가 틀린경우
-		}else if(certifyResult.getResultCode() == 3){
+		}else if(certifyResult.getResultCode() == defineCode.WRONG_CERIFICATION_KEY){
 			model.addAttribute(certifyResult);
 			return "/member/recoverCertificationForm";
 		//정상처리
@@ -176,16 +190,18 @@ public class MemberController {
 	 * 로그인 =========================	
 	 */	
 	@RequestMapping(value="loginForm", method=RequestMethod.GET)	
-	public String springLoginForm(ModelMap model) {
-		System.out.println("spring :: form");
+	public String loginForm(ModelMap model) {
+		logger.debug("input : " + model.toString());
+		
 		model.addAttribute(new Login());
 		return "/member/loginForm";
 	}
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)	
-	public String springLoginAction(@ModelAttribute @Valid Login login, BindingResult result, HttpSession session, Model model) {
-		System.out.println("spring :: login");				
-		if(result.hasErrors()) return "/member/loginForm";		
+	public String loginAction(@ModelAttribute @Valid Login login, BindingResult result, HttpSession session, Model model) {
+		logger.debug("input : " + login.toString());
+		
+		if(result.hasErrors()) return "/member/loginForm";
 		Login sessionLogin = (Login)session.getAttribute("login");		
 		Login resultLogin = memberService.loginProcess(login, sessionLogin);
 		session.setAttribute("login", resultLogin);
@@ -194,8 +210,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="logout", method=RequestMethod.GET)	
-	public String springLogoutForm(ModelMap model, HttpSession session) {
-		System.out.println("spring :: logout");
+	public String logoutForm(ModelMap model, HttpSession session) {
+		logger.debug("input : " + model.toString());
+		
 		session.removeAttribute("login");
 		model.addAttribute(new Login());
 		return "/member/loginForm";
